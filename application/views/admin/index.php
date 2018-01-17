@@ -70,5 +70,5 @@
 		</div>
 	</div>
 </body>
-<?php include ""; ?>
+<?php include "bottom.php"; ?>
 </html>

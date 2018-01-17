@@ -5,8 +5,7 @@ class Mod extends CI_Model {
 
 	public function cek($table,$where)
 	{
-		$this->db->get($table);
-		$this->db->where($where);
+		return $this->db->get_where($table,$where);
 	}
 
 }

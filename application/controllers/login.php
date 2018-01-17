@@ -6,7 +6,6 @@ class Login extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('session');
 		$this->load->model('mod');
 	}
 
@@ -20,9 +19,9 @@ class Login extends CI_Controller {
 
 		$where = array('username'=>$this->input->post('user'),
 					  'password'=>$this->input->post('password'));
+
 		
 		$cek = $this->mod->cek('user',$where)->result();
-		
 		if ($cek[0]->level == 'admin') {
 		 $data_session = array('nama' => $this->input->post('user') ,
 		 						'status' => 'login' );
@@ -37,6 +36,12 @@ class Login extends CI_Controller {
 			redirect('login');
 		}
 
+	}
+
+	public function logout()
+	{
+		$this->session->sess_destroy();
+		redirect('login');
 	}
 
 }
