@@ -17,13 +17,13 @@
 					<h3>Login Page</h3>
 				</div>
 				<div class="panel-body">
-					<form>
+					<form method="post" action="<?php echo base_url('index.php/login/proses/'); ?>">
 						<div class="form-group">
-							<input type="text" class="form-control input-lg" placeholder="Username" name="">
+							<input type="text" class="form-control input-lg" placeholder="Username" name="user">
 						</div>
 
 						<div class="form-group">
-							<input type="text" class="form-control input-lg" placeholder="Password" name="">
+							<input type="text" class="form-control input-lg" placeholder="Password" name="password">
 						</div>
 						<div class="form-group">
 							<button class="btn btn-default btn-block" data-class="">Default</button>
