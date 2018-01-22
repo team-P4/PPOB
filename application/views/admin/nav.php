@@ -10,7 +10,11 @@
 							<button type="button" class="sidebar-toggle">
 								<i class="fa fa-bars"></i>
 							</button>
+<<<<<<< HEAD
 							<a class="navbar-brand text-size-24" href="#"><i class="fa fa-star-o"></i> Welcome in PPOB</a>
+=======
+							<a class="navbar-brand text-size-24" href="#"><i class="fa fa-star-o"></i> Welcome , <?php echo $this->session->userdata('nama'); ?></a>
+>>>>>>> loket
 						</div>
 						<div class="collapse navbar-collapse" id="menu">
 							<ul class="nav navbar-nav navbar-right">
@@ -23,7 +27,7 @@
 									</a>
 									<ul class="dropdown-menu">
 										<li><a href="#"><i class="fa fa-fw fa-user"></i> Info</a></li>
-										<li><a href="#"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
+										<li><a href="<?php echo base_url('index.php/login/logout'); ?>"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
 									</ul>
 								</li>
 							</ul>

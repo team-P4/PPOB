@@ -6,8 +6,14 @@ class Admin extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+<<<<<<< HEAD
 		$this->load->model('mod_admin');
 		$this->load->helper('url','form','download');
+=======
+		if ($this->session->userdata('status')!='login') {
+			redirect('login/index');
+		}
+>>>>>>> loket
 	}
 
 	public function index()
