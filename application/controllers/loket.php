@@ -15,7 +15,14 @@ class Loket extends CI_Controller {
 	{
 		$this->load->view('loket/index');	
 	}
-
+	public function payment()
+	{
+		$this->load->view('loket/form-bayar');
+	}
+	public function laporan()
+	{
+		$this->load->view('loket/laporan');
+	}
 }
 
 /* End of file loket.php */
