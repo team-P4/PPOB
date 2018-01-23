@@ -8,6 +8,7 @@
 	   #importFrm{margin-bottom: 20px;display: none;}
 	   #importFrm input[type=file] {display: inline;}
 	</style>
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/datatables.min.css">
 </head>
 <body>
 	<div id="wrapper">
@@ -44,21 +45,6 @@
 												</div>
 											</div>
 											<div class="form-group">
-												<label class="col-sm-3 control-label">Loket</label>
-												<div class="col-md-6">
-													<select class="form-control" name="id">
-														<?php  
-														$this->db->where('level', 'loket');
-														$query = $this->db->get('user')->result();
-
-														foreach ($query as $key) {
-															echo '<option value="'.$key->id.'">'.$key->username.'</option>\n';
-														}
-														?>
-													</select>
-												</div>
-											</div>
-											<div class="form-group">
 												<label class="col-sm-3 control-label">Alamat</label>
 												<div class="col-sm-6">
 													<textarea class="form-control" name="alamat"></textarea>
@@ -85,7 +71,7 @@
 							                    <a href="<?php echo base_url('index.php/Admin/d_pelanggan'); ?>" class="btn btn-success">Download Template(.xlsx)</a>
 							                </form>
 							                <form action="<?php echo base_url('index.php/Admin/del_pelanggan'); ?>" method="POST">
-							                <table class="table table-bordered">
+							                <table class="table table-bordered" id="myTable">
 							                    <thead>
 							            	        <tr class="danger">
 							            	        	<TH>...</TH>
@@ -136,17 +122,6 @@
 									<b><?php echo $key->kodetarif; ?></b>
 						</span><br>
 						<span class="col-sm-2"></span>
-						<span class="col-sm-3 text-size-18 text-left">Loket</span>
-						<span class="col-sm-6 text-size-18">
-									<b><?php 
-									$this->db->where('id', $key->id);
-									$lol = $this->db->get('user')->result();
-									foreach ($lol as $lue) {
-										echo $lue->username;
-									}
-									?></b>
-						</span><br>
-						<span class="col-sm-2"></span>
 						<span class="col-sm-3 text-size-18 text-left">Alamat</span>
 						<span class="col-sm-6 text-size-18">
 									<b><?php echo $key->alamat; ?></b>
@@ -178,4 +153,10 @@
 	</div>
 </body>
 <?php include 'bottom.php'; ?>
+<script src="<?php echo base_url(); ?>assets/js/datatables.min.js"></script>
+<script>
+	$(document).ready(function(){
+    $('#myTable').DataTable();
+});
+</script>
 </html>

@@ -10,6 +10,7 @@ class Loket extends CI_Controller {
 		if ($this->session->userdata('status')!='login') {
 			redirect('login/index');
 		}
+		$this->load->model('mod_admin');
 	}
 	public function index()
 	{
@@ -17,11 +18,26 @@ class Loket extends CI_Controller {
 	}
 	public function payment()
 	{
-		$this->load->view('loket/form-bayar');
+		$data['number'] = 1;
+		$this->load->view('loket/form-bayar',$data);
 	}
 	public function laporan()
 	{
 		$this->load->view('loket/laporan');
+	}
+	public function search()
+	{
+		$id = $this->input->get('id');
+		$where = array('id_pelanggan' => $id,
+					   'status' => '0');
+		$where2 = array('id_pelanggan' => $id,
+					   'status' => '1');
+		$where1 = array('id_pelanggan' => $id);
+		$data['data']=$this->mod_admin->tampil_di('tagihan',$where);
+		$data['number'] = 0;
+		$data['name']=$this->mod_admin->tampil_di('pelanggan',$where1);
+		$data['lunas']=$this->mod_admin->tampil_di('tagihan',$where2);
+		$this->load->view('loket/form-bayar', $data);
 	}
 }
 

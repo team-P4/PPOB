@@ -93,6 +93,21 @@ class Mod_admin extends CI_Model {
             $this->db->insert('pelanggan', $ins);
         }
 	}
+    public function get_id_pelanggan()
+    {
+        $query = $this->db->query("SELECT MAX(id_pelanggan) AS id_pelanggan FROM pelanggan");
+        return $query->row_array();
+    }
+    public function get_id_loket()
+    {
+        $query = $this->db->query("SELECT MAX(kode_pegawai) AS kode_pegawai FROM user");
+        return $query->row_array();
+    }
+    public function get_id_tagihan()
+    {
+        $query = $this->db->query("SELECT MAX(id_tagihan) AS id_tagihan FROM tagihan");
+        return $query->row_array();
+    }
 }
 
 /* End of file mod_admin.php */

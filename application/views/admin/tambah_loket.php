@@ -8,6 +8,7 @@
 	   #importFrm{margin-bottom: 20px;display: none;}
 	   #importFrm input[type=file] {display: inline;}
 	</style>
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/datatables.min.css">
 </head>
 <body>
 	<div id="wrapper">
@@ -57,7 +58,7 @@
 							                    <a href="<?php echo base_url('index.php/Admin/d_loket'); ?>" class="btn btn-success">Download Template(.xlsx)</a>
 							                </form>
 							                <form action="<?php echo base_url('index.php/Admin/del_loket'); ?>" method="POST">
-							                <table class="table table-bordered">
+							                <table class="table table-bordered" id="myTable">
 							                    <thead>
 							            	        <tr class="danger">
 							            	        	<TH>...</TH>
@@ -93,7 +94,7 @@
 						<span class="col-sm-2"></span>
 						<span class="col-sm-3 text-size-18 text-left">ID</span>
 						<span class="col-sm-6 text-size-18">
-									<b><?php echo $key->id; ?></b>
+									<b><?php echo $key->kode_pegawai; ?></b>
 						</span><br>
 						<span class="col-sm-2"></span>
 						<span class="col-sm-3 text-size-18 text-left" align="left">Username</span>
@@ -138,4 +139,10 @@
 	</div>
 </body>
 <?php include 'bottom.php'; ?>
+<script src="<?php echo base_url(); ?>assets/js/datatables.min.js"></script>
+<script>
+	$(document).ready(function(){
+    $('#myTable').DataTable();
+});
+</script>
 </html>

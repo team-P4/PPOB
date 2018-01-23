@@ -14,6 +14,7 @@
 					<li><a href="<?php echo base_url('index.php/Admin/tloket'); ?>"><i class="fa fa-user-o"></i><span>Loket</span></a></li>
 					<li><a href="<?php echo base_url('index.php/Admin/tpelanggan'); ?>"><i class="fa fa-users" aria-hidden="true"></i><span>Pelanggan</span></a></li>
 					<li><a href="<?php echo base_url('index.php/Admin/laporan'); ?>"><i class="fa fa-folder-open-o" aria-hidden="true"></i><span>Laporan</span></a></li>
+					<li><a href="<?php echo base_url('index.php/Admin/tagihan'); ?>"><i class="fa fa-folder-open-o" aria-hidden="true"></i><span>Tagihan</span></a></li>
 					
 				</ul>
 				<div class="sidebar-footer">

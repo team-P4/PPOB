@@ -25,7 +25,7 @@
 											<div class="form-group">
 												<label class="col-sm-3 control-label">ID Loket</label>
 												<div class="col-sm-6">
-													<input type="text" name="id_loket" class="form-control" value="<?php echo $key->id; ?>" readonly>
+													<input type="text" name="id_loket" class="form-control" value="<?php echo $key->kode_pegawai; ?>" readonly>
 												</div>
 											</div>
 											<div class="form-group">
