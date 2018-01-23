@@ -97,14 +97,6 @@ class Mod extends CI_Model {
             $this->db->insert('barang', $ins);
         }
 	}
-}
-
-/* End of file mod.php */
-=======
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-class Mod extends CI_Model {
 
 	public function cek($table,$where)
 	{
@@ -114,5 +106,4 @@ class Mod extends CI_Model {
 }
 
 /* End of file mod.php */
->>>>>>> loket
 /* Location: ./application/models/mod.php */

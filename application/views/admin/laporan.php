@@ -15,12 +15,13 @@
 						<div class="panel panel-default">
 							<div class="panel-body">
 								<div class="col-xs-12 col-sm-12">
-									<center><span class="text-size-22"><i class="fa fa-file-o space-right-10"aria-hidden="true"></i>Laporan Loket</span></center><br> <br>
+									<center><span class="text-size-22"><i class="fa fa-file-o space-right-10"aria-hidden="true"></i>Laporan pendapatan Loket</span></center><br> <br>
 									<form action="">
 										<div class="form-group">
 											<label for="">Loket</label>
 											<!-- <input type="text" class="form-control input-lg" placeholder="Nama Loket"> -->
 											<select class="form-control" name="loket">
+												<option value="semua">Semua</option>
 												<?php  
 												$this->db->where('level', 'loket');
 												$query = $this->db->get('user')->result();

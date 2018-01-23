@@ -32,6 +32,18 @@ class Mod_admin extends CI_Model {
 		$this->db->delete($table);
 	}
 
+    public function get_id_loket()
+    {
+        $query = $this->db->query("SELECT MAX(kode_pegawai) AS kode_pegawai FROM user");
+        return $query->row_array();
+    }
+
+    public function get_id_pelanggan()
+    {
+        $query = $this->db->query("SELECT MAX(id_pelanggan) AS id_pelanggan FROM pelanggan");
+        return $query->row_array();
+    }
+
 	public function import_mod($filename)
 	{
 		ini_set('memory_limit', '-1');
@@ -43,21 +55,32 @@ class Mod_admin extends CI_Model {
         }
 
         $worksheet = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
-        $numRows = count($worksheet);
+        unset($worksheet['1']);
 
-        for ($i=2; $i < ($numRows+1) ; $i++) { 
-            /*
-            $tgl_asli = str_replace('/', '-', $worksheet[$i]['B']);
-            $exp_tgl_asli = explode('-', $tgl_asli);
-            $exp_tahun = explode(' ', $exp_tgl_asli[2]);
-            $tgl_sql = $exp_tahun[0].'-'.$exp_tgl_asli[0].'-    '.$exp_tgl_asli[1].' '.$exp_tahun[1];
-            */
+        foreach ($worksheet as $key => $value) {
+            $id = $this->db->query("SELECT MAX(kode_pegawai) AS kode_pegawai FROM user")->row_array();
+            
+            if ($id) {
+                $nilai = substr($id['kode_pegawai'], 2);
+                $nilai_baru = (int) $nilai;
+                $nilai_baru++;
+                $nilai_baru2 = "LK".str_pad($nilai_baru, 4, "0", STR_PAD_LEFT);
+            }else{
+                $nilai_baru2 = "LK0001";
+            }
+            
+            // $tgl_asli = str_replace('/', '-', $worksheet[$i]['B']);
+            // $exp_tgl_asli = explode('-', $tgl_asli);
+            // $exp_tahun = explode(' ', $exp_tgl_asli[2]);
+            // $tgl_sql = $exp_tahun[0].'-'.$exp_tgl_asli[0].'-    '.$exp_tgl_asli[1].' '.$exp_tahun[1];
+            
+            
             $ins = array(
-                    "username"     => $worksheet[$i]["A"],
-                    "password"   => $worksheet[$i]["B"],
-                    "level"      => $worksheet[$i]["C"]
-                   );
-
+                    "kode_pegawai" => $nilai_baru2, 
+                    "username"     => $worksheet[$key]['A'],
+                    "password"   => $worksheet[$key]["B"],
+                    "level"      => $worksheet[$key]["C"]
+            );
             $this->db->insert('user', $ins);
         }
 	}
@@ -73,23 +96,34 @@ class Mod_admin extends CI_Model {
         }
 
         $worksheet = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
-        $numRows = count($worksheet);
+        unset($worksheet['1']);
 
-        for ($i=2; $i < ($numRows+1) ; $i++) { 
-            /*
-            $tgl_asli = str_replace('/', '-', $worksheet[$i]['B']);
-            $exp_tgl_asli = explode('-', $tgl_asli);
-            $exp_tahun = explode(' ', $exp_tgl_asli[2]);
-            $tgl_sql = $exp_tahun[0].'-'.$exp_tgl_asli[0].'-    '.$exp_tgl_asli[1].' '.$exp_tahun[1];
-            */
+        foreach ($worksheet as $key => $value) {
+            $id = $this->db->query("SELECT MAX(id_pelanggan) AS id_pelanggan FROM pelanggan")->row_array();
+            
+            if ($id) {
+                $nilai = substr($id['id_pelanggan'], 2);
+                $nilai_baru = (int) $nilai;
+                $nilai_baru++;
+                $nilai_baru2 = "PL".str_pad($nilai_baru, 4, "0", STR_PAD_LEFT);
+            }else{
+                $nilai_baru2 = "PL0001";
+            }
+            
+            // $tgl_asli = str_replace('/', '-', $worksheet[$i]['B']);
+            // $exp_tgl_asli = explode('-', $tgl_asli);
+            // $exp_tahun = explode(' ', $exp_tgl_asli[2]);
+            // $tgl_sql = $exp_tahun[0].'-'.$exp_tgl_asli[0].'-    '.$exp_tgl_asli[1].' '.$exp_tahun[1];
+            
+            
             $ins = array(
-                    "id"     => $worksheet[$i]["A"],
-                    "nama"   => $worksheet[$i]["B"],
-                    "alamat"      => $worksheet[$i]["C"],
-                    "kodetarif" => $worksheet[$i]["D"],
-                    "kwhterbaru" => $worksheet[$i]["E"]
-                   );
-
+                    "id_pelanggan" => $nilai_baru2,
+                    "kode_pegawai" => $worksheet[$key]['A'], 
+                    "nama"     => $worksheet[$key]["B"],
+                    "alamat"   => $worksheet[$key]["C"],
+                    "kodetarif" => $worksheet[$key]["D"],
+                    "kwhterbaru"  => $worksheet[$key]["E"]
+            );
             $this->db->insert('pelanggan', $ins);
         }
 	}

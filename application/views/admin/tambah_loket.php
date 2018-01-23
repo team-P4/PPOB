@@ -53,7 +53,30 @@
 							                <form action="<?php echo base_url('index.php/Import/import'); ?>" method="POST" enctype="multipart/form-data" id="importFrm">
 							                    <input type="file" name="file" id="file">
 							                    <input type="submit" class="btn btn-primary" id="submit" name="import" value="IMPORT">
-							                    <a href="#" class="btn btn-danger">EXPORT</a>
+							                    <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#myModalkk" data-class="">EXPORT</a>
+
+<div class="modal fade" id="myModalkk" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<span></span>
+				</div>
+				<div class="modal-body">
+					<p class="text-center">
+						<span class="text-size-32"><i class="fa fa-file-o fa-2x"></i></span><br><br>
+						<span class="text-size-24">Laporan Loket</span><br>
+						<span>Ada dua pilihan untuk cetak laporan</span><br>
+						<span>Excel, Untuk mencetak laporan dengan ekstensi .xlsx</span><br>
+						<span> Dan PDF, Untuk mencetak laporan dengan ekstensi .pdf</span>
+					</p>
+				</div>
+				<div class="modal-footer">
+					<center><a href="<?php echo base_url('index.php/Import/export_loket_xlsx'); ?>" class="btn btn-default"><i class="fa fa-file-excel-o"></i><span> Excel</span></a><a href="<?php echo base_url('index.php/Import/export_loket_pdf'); ?>" target="_blank" class="btn btn-default"><i class="fa fa-file-pdf-o"></i><span> PDF</span></a></center>
+				</div>
+			</div>
+		</div>
+	</div>
 							                    <a href="<?php echo base_url('index.php/Admin/d_loket'); ?>" class="btn btn-success">Download Template(.xlsx)</a>
 							                </form>
 							                <form action="<?php echo base_url('index.php/Admin/del_loket'); ?>" method="POST">
@@ -73,7 +96,7 @@
 							                    	?>
 							                    	<tr>
 							                    		<td><input type="checkbox" name="list[]" value="<?php echo $key->id; ?>"></td>
-							                    		<td><?php echo $no++; ?></td>
+							                    		<td><?php echo $key->kode_pegawai; ?></td>
 							                    		<td><?php echo $key->username; ?></td>
 							                    		<td align="center">
 							                    			<a href="#" class="btn btn-floyd" data-toggle="modal" data-target="#myModal<?php echo $key->id; ?>" data-class="modal-default"><i class="fa fa-ellipsis-h"></i></a>

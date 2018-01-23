@@ -23,9 +23,10 @@
 											foreach ($upd as $key) {
 											?>
 											<div class="form-group">
-												<label class="col-sm-3 control-label">ID Loket</label>
+												<label class="col-sm-3 control-label">Kode Pegawai</label>
 												<div class="col-sm-6">
-													<input type="text" name="id_loket" class="form-control" value="<?php echo $key->id; ?>" readonly>
+													<input type="hidden" name="id_loket" class="form-control" value="<?php echo $key->id; ?>" readonly>
+													<input type="text" name="kode_pegawai" class="form-control" value="<?php echo $key->kode_pegawai; ?>" readonly>
 												</div>
 											</div>
 											<div class="form-group">

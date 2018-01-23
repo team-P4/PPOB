@@ -6,14 +6,11 @@ class Admin extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-<<<<<<< HEAD
 		$this->load->model('mod_admin');
 		$this->load->helper('url','form','download');
-=======
 		if ($this->session->userdata('status')!='login') {
 			redirect('login/index');
 		}
->>>>>>> loket
 	}
 
 	public function index()
@@ -41,7 +38,17 @@ class Admin extends CI_Controller {
 
 	public function input_loket()
 	{
-		$object = array('username' => $this->input->post('username'),
+		$id = $this->mod_admin->get_id_loket();
+		if ($id) {
+			$nilai = substr($id['kode_pegawai'], 2);
+			$nilai_baru = (int) $nilai;
+			$nilai_baru++;
+			$nilai_baru2 = "LK".str_pad($nilai_baru, 4, "0", STR_PAD_LEFT);
+		}else{
+			$nilai_baru2 = "LK0001";
+		}
+		$object = array('kode_pegawai' => $nilai_baru2,
+						'username' => $this->input->post('username'),
 						'password' => $this->input->post('password'),
 						'level' => $this->input->post('level') );
 		$this->mod_admin->insert('user',$object);
@@ -50,7 +57,17 @@ class Admin extends CI_Controller {
 
 	public function input_pelanggan()
 	{
-		$object = array('id' => $this->input->post('id'),
+		$id = $this->mod_admin->get_id_pelanggan();
+		if ($id) {
+			$nilai = substr($id['id_pelanggan'], 2);
+			$nilai_baru = (int) $nilai;
+			$nilai_baru++;
+			$nilai_baru2 = "PL".str_pad($nilai_baru, 4, "0", STR_PAD_LEFT);
+		}else{
+			$nilai_baru2 = "PL0001";
+		}
+		$object = array('id_pelanggan' => $nilai_baru2,
+						'kode_pegawai' => $this->input->post('id'),
 						'nama' => $this->input->post('nama'),
 						'alamat' => $this->input->post('alamat'),
 						'kodetarif' => $this->input->post('kodetarif') );
@@ -69,6 +86,7 @@ class Admin extends CI_Controller {
 	{
 		$where = array('id' => $this->input->post('id_loket'));
 		$object = array('id' => $this->input->post('id_loket'),
+						'kode_pegawai' => $this->input->post('kode_pegawai'),
 						'username' => $this->input->post('username'),
 						'password' => $this->input->post('password'),
 						'level' => $this->input->post('level')
@@ -99,7 +117,7 @@ class Admin extends CI_Controller {
 	{
 		$where = array('id_pelanggan' => $this->input->post('id_pelanggan'));
 		$object = array('id_pelanggan' => $this->input->post('id_pelanggan'),
-						'id' => $this->input->post('id'),
+						'kode_pegawai' => $this->input->post('id'),
 						'nama' => $this->input->post('nama'),
 						'alamat' => $this->input->post('alamat'),
 						'kodetarif' => $this->input->post('kodetarif') );

@@ -57,7 +57,7 @@
 												$query = $this->db->get('user')->result();
 
 												foreach ($query as $adf) {
-													echo '<option value="'.$adf->id.'">'.$adf->username.'</option>\n';
+													echo '<option value="'.$adf->kode_pegawai.'">'.$adf->username.'</option>\n';
 												}
 												?>
 											</select>
