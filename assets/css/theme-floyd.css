@@ -372,6 +372,14 @@ p{
 	border-color: #ff4d4d;
 	color: rgba(0,0,0,.6);
 }
+.alert-costum{
+	background-color: #ffc9cc;
+	border-color: #f90411;
+}
+.alert-costum1{
+	background-color: #ffc9cc;
+	border-color: #f90411;
+}
 
 /*BUTTON*/
 

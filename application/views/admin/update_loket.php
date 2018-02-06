@@ -18,7 +18,7 @@
 									<p class="text-center">
 										<span class="text-size-32"><i class="fa fa-building-o fa-2x"></i></span><br><br>
 										<span class="text-size-24">Update Loket</span><br><br>
-										<form action="<?php echo base_url('index.php/Admin/update_loket/'); ?>" method="POST" style="border-radius: 0px;" class="form-horizontal group-border-dashed">
+										<form action="<?php echo base_url('index.php/Admin/update_loket'); ?>" method="POST" style="border-radius: 0px;" class="form-horizontal group-border-dashed">
 											<?php  
 											foreach ($upd as $key) {
 											?>
@@ -40,6 +40,13 @@
 												<div class="col-sm-6">
 													<input type="password" name="password" class="form-control" placeholder="Password" value="<?= $key->password ?>">
 													<input type="hidden" name="level" value="loket">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-3 control-label">Tambah Saldo</label>
+												<div class="col-sm-6">
+													<input type="hidden" name="saldo1" class="form-control" value="<?= $key->saldo ?>">
+													<input type="text" name="saldo2" class="form-control">
 												</div>
 											</div>
 											<div class="form-group">

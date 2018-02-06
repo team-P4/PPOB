@@ -16,7 +16,7 @@
 							<div class="panel-body">
 								<div class="col-xs-12 col-sm-12">
 									<center><span class="text-size-22"><i class="fa fa-file-o space-right-10"aria-hidden="true"></i>Laporan pendapatan Loket</span></center><br> <br>
-									<form action="">
+									<form action="<?php echo base_url('index.php/Import/pen_lok'); ?>" method="POST" target="_blank">
 										<div class="form-group">
 											<label for="">Loket</label>
 											<!-- <input type="text" class="form-control input-lg" placeholder="Nama Loket"> -->
@@ -69,8 +69,7 @@
 											</label>
 										</div><br>
 										<div class="form-group">
-											<button class="btn btn-primary" type="button">login</button>
-											<button class="btn btn-default" type="reset">batal</button>
+											<button class="btn btn-primary" type="submit">login</button>
 										</div>
 									</form> 
 								</div>

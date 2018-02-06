@@ -14,31 +14,71 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-md-12">
-							<h1>Cetak Laporan</h1>
 							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h1 class="panel-title" style="color: black;">Cetak Laporan</h1>
+									<span class="text-grey">Cetak Berdasarkan :</span>
+								</div>
 								<div class="panel-body">
-									<h5>Cetak Berdasarkan :</h5>
-									<table class="table table-bordered">
-										<tr>
-											<td><label for="" class="control-label">Per Tanggal</label></td>
-											<td><input type="date" class="input-md"></td>
-										</tr>
-										<tr>
-											<td><label for="" class="control-label">Per Bulan/Tahun</label></td>
-											<td>
-												<select name="" id="" class="input-md">
+									<form class="form-horizontal" target="_blank" action="<?php echo base_url('index.php/Import/laporan_loket'); ?>" method="POST">
+										<div class="form-group">
+											<label for="inputPassword3" class="col-sm-2 control-label">Bulan</label>
+											<div class="col-sm-10">
+												<select name="bulan" id="" class="form-control input-md">
+													<option value="semua">Semua</option>
 												<?php 
-												$months = array('1'=>'Januari','2'=>'Februari','3'=>'Maret','4'=>'April','5'=>'Mei','6'=>'Juni','7'=>'Juli','8'=>'Agustus','9'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember');
+												$months = array('01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April','05'=>'Mei','06'=>'Juni','07'=>'Juli','08'=>'Agustus','09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember');
 												foreach ($months as $m => $value) {
 												?>
 													<option value="<?php echo $m; ?>"><?php echo $value; ?></option>
 
 												<?php	} ?>
 												</select>
-											</td>
-										</tr>
-									</table>
-									</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputPassword3" class="col-sm-2 control-label">Tahun</label>
+											<div class="col-sm-10">
+												<select class="form-control" name="tahun">								<?php 
+														echo "<option value='semua'>Semua</option>\n";
+													   $starting_year  =date('Y', strtotime('-60 year'));
+			                                           $ending_year = date('Y');
+			                                           $current_year = date('Y');
+			                                           for($starting_year; $starting_year <= $ending_year; $starting_year++) {
+			                                               echo '<option value="'.$starting_year.'"';
+			                                               if( $starting_year ==  $current_year ) {
+			                                               echo ' selected="selected"';
+			                                               }
+			                                               echo ' >'.$starting_year.'</option>';
+			                                               }               
+													?>
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputPassword3" class="col-sm-2 control-label">Berdasarkan</label>
+											<div class="col-sm-10">
+												<select class="form-control" name="berdasarkan">								<option value="transaksi">Transaksi</option>
+													<option value="pendapatan">Pendapatan</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+												<div class="checkbox">
+													<label>
+														<input type="radio" name="laporan" value="excel"> <b>Excel</b>&nbsp&nbsp
+														<input type="radio" name="laporan" value="pdf"> <b>PDF </b>
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+												<button type="submit" class="btn btn-primary">Print</button>
+											</div>
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>

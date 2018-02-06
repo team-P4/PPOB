@@ -19,17 +19,21 @@ class Login extends CI_Controller {
 
 		$where = array('username'=>$this->input->post('user'),
 					  'password'=>$this->input->post('password'));
-
+		
 		
 		$cek = $this->mod->cek('user',$where)->result();
 		if ($cek[0]->level == 'admin') {
 		 $data_session = array('nama' => $this->input->post('user') ,
-		 						'status' => 'login' );
+		 					   'kode_pegawai' => $cek[0]->kode_pegawai,
+		 					   'saldo' => $cek[0]->saldo,
+		 					   'status' => 'login' );
 		 $this->session->set_userdata($data_session);
 		 redirect('admin');
 		}elseif ($cek[0]->level == 'loket') {
 		 $data_session = array('nama' => $this->input->post('user') ,
-		 						'status' => 'login' );
+		 					   'kode_pegawai' => $cek[0]->kode_pegawai,
+		 					   'saldo' => $cek[0]->saldo,
+		 					   'status' => 'login' );
 		 $this->session->set_userdata($data_session);
 		 redirect('loket');
 		}else{

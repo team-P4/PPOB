@@ -7,12 +7,12 @@ class Admin extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('mod_admin');
-		$this->load->helper('url','form','download');
+		$this->load->helper('url','form','download','log');
 		if ($this->session->userdata('status')!='login') {
 			redirect('login/index');
 		}
 	}
-
+	//TAMPILAN
 	public function index()
 	{
 		$this->load->view('admin/index');
@@ -35,7 +35,13 @@ class Admin extends CI_Controller {
 	{
 		$this->load->view('admin/laporan');
 	}
+	public function tagihan()
+	{
+		$data['data'] = $this->mod_admin->tampil('pelanggan');
+		$this->load->view('admin/tagihan',$data);
+	}
 
+	//PROSES//
 	public function input_loket()
 	{
 		$id = $this->mod_admin->get_id_loket();
@@ -85,14 +91,45 @@ class Admin extends CI_Controller {
 	public function update_loket()
 	{
 		$where = array('id' => $this->input->post('id_loket'));
+
+		$new_saldo = $this->input->post('saldo1') + $this->input->post('saldo2');
+
 		$object = array('id' => $this->input->post('id_loket'),
 						'kode_pegawai' => $this->input->post('kode_pegawai'),
 						'username' => $this->input->post('username'),
 						'password' => $this->input->post('password'),
+						'saldo' => $new_saldo,
 						'level' => $this->input->post('level')
 						);
 		$this->mod_admin->update('user', $where, $object);
 		redirect('Admin/tloket');
+	}
+	public function input_tagihan($id_pel)
+	{
+		$id = $this->mod_admin->get_id_tagihan();
+		if ($id) {
+			$nilai = substr($id['id_tagihan'], 2);
+			$nilai_baru = (int) $nilai;
+			$nilai_baru++;
+			$nilai_baru2 = "TG".str_pad($nilai_baru, 4, "0", STR_PAD_LEFT);
+		}else{
+			$nilai_baru2 = "TG0001";
+		}
+
+		$where = array('kode_tarif'=>$this->input->post('kode'));
+		$cek  = $this->mod_admin->tampil_di('tarif',$where);
+		$num = rand(500,1500);
+		$res = $num * $cek[0]->tarifperkwh;
+		$object = array('id_tagihan' => $nilai_baru2,
+						'tgl_tagihan' => $this->input->post('tgl'),
+						'kode_tarif' => $this->input->post('kode'),
+						'pemakaian' => $num,
+						'total_biaya' => $res ,
+						'status' => '0',
+						'id_pelanggan' => $id_pel
+					);
+		$this->mod_admin->insert('tagihan',$object);
+		redirect('admin/tagihan');
 	}
 
 	public function del_loket()

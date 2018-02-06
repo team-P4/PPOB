@@ -3,6 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mod_admin extends CI_Model {
 
+    public function save_log($param)
+    {
+        $sql        = $this->db->insert_string('tabel_log',$param);
+        $ex         = $this->db->query($sql);
+        return $this->db->affected_rows($sql);
+    }
+    
 	public function tampil($table)
 	{
 		$query = $this->db->get($table)->result();
@@ -41,6 +48,18 @@ class Mod_admin extends CI_Model {
     public function get_id_pelanggan()
     {
         $query = $this->db->query("SELECT MAX(id_pelanggan) AS id_pelanggan FROM pelanggan");
+        return $query->row_array();
+    }
+
+    public function get_id_tagihan()
+    {
+        $query = $this->db->query("SELECT MAX(id_tagihan) AS id_tagihan FROM tagihan");
+        return $query->row_array();
+    }
+
+    public function get_id_pembayaran()
+    {
+        $query = $this->db->query("SELECT MAX(id_pembayaran) AS id_pembayaran FROM pembayaran");
         return $query->row_array();
     }
 

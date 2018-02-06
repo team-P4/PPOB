@@ -8,6 +8,7 @@
 	   #importFrm{margin-bottom: 20px;display: none;}
 	   #importFrm input[type=file] {display: inline;}
 	</style>
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/datatables.min.css">
 </head>
 <body>
 	<div id="wrapper">
@@ -108,7 +109,7 @@
 							                    <a href="<?php echo base_url('index.php/Admin/d_pelanggan'); ?>" class="btn btn-success">Download Template(.xlsx)</a>
 							                </form>
 							                <form action="<?php echo base_url('index.php/Admin/del_pelanggan'); ?>" method="POST">
-							                <table class="table table-bordered">
+							                <table class="table table-bordered" id="myTable">
 							                    <thead>
 							            	        <tr class="danger">
 							            	        	<TH>...</TH>
@@ -201,4 +202,10 @@
 	</div>
 </body>
 <?php include 'bottom.php'; ?>
+<script src="<?php echo base_url(); ?>assets/js/datatables.min.js"></script>
+<script>
+	$(document).ready(function(){
+    $('#myTable').DataTable();
+});
+</script>
 </html>

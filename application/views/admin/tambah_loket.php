@@ -8,6 +8,7 @@
 	   #importFrm{margin-bottom: 20px;display: none;}
 	   #importFrm input[type=file] {display: inline;}
 	</style>
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/datatables.min.css">
 </head>
 <body>
 	<div id="wrapper">
@@ -80,7 +81,7 @@
 							                    <a href="<?php echo base_url('index.php/Admin/d_loket'); ?>" class="btn btn-success">Download Template(.xlsx)</a>
 							                </form>
 							                <form action="<?php echo base_url('index.php/Admin/del_loket'); ?>" method="POST">
-							                <table class="table table-bordered">
+							                <table class="table table-bordered" id="myTable">
 							                    <thead>
 							            	        <tr class="danger">
 							            	        	<TH>...</TH>
@@ -99,7 +100,7 @@
 							                    		<td><?php echo $key->kode_pegawai; ?></td>
 							                    		<td><?php echo $key->username; ?></td>
 							                    		<td align="center">
-							                    			<a href="#" class="btn btn-floyd" data-toggle="modal" data-target="#myModal<?php echo $key->id; ?>" data-class="modal-default"><i class="fa fa-ellipsis-h"></i></a>
+							                    			<a href="#" title="Detail" class="btn btn-floyd" data-toggle="modal" data-target="#myModal<?php echo $key->id; ?>" data-class="modal-default"><i class="fa fa-ellipsis-h"></i></a>
 <!-- modal -->
 <div class="modal fade" id="myModal<?php echo $key->id; ?>" tabindex="-1" role="dialog">
 	<div class="modal-dialog modal-default" role="document">
@@ -116,7 +117,7 @@
 						<span class="col-sm-2"></span>
 						<span class="col-sm-3 text-size-18 text-left">ID</span>
 						<span class="col-sm-6 text-size-18">
-									<b><?php echo $key->id; ?></b>
+									<b><?php echo $key->kode_pegawai; ?></b>
 						</span><br>
 						<span class="col-sm-2"></span>
 						<span class="col-sm-3 text-size-18 text-left" align="left">Username</span>
@@ -129,6 +130,11 @@
 									<b><?php echo $key->password; ?></b>
 						</span><br>
 						<span class="col-sm-2"></span>
+						<span class="col-sm-3 text-size-18 text-left">Saldo</span>
+						<span class="col-sm-6 text-size-18">
+									<b><?php echo number_format($key->saldo,2,',','.'); ?></b>
+						</span><br>
+						<span class="col-sm-2"></span>
 						<span class="col-sm-3 text-size-18 text-left">Level</span>
 						<span class="col-sm-6 text-size-18">
 									<b><?php echo $key->level; ?></b>
@@ -139,7 +145,7 @@
 	</div>
 </div>
 
-							                    			<a href="<?php echo base_url('index.php/Admin/edit_loket/').$key->id; ?>" class="btn btn-info"><i class="fa fa-circle-o-notch"></i></a>
+							                    			<a href="<?php echo base_url('index.php/Admin/edit_loket/').$key->id; ?>" title="Edit" class="btn btn-info"><i class="fa fa-circle-o-notch"></i></a>
 							                    		</td>
 							                    	</tr>
 							                    	<?php } ?>
@@ -161,4 +167,10 @@
 	</div>
 </body>
 <?php include 'bottom.php'; ?>
+<script src="<?php echo base_url(); ?>assets/js/datatables.min.js"></script>
+<script>
+	$(document).ready(function(){
+    $('#myTable').DataTable();
+});
+</script>
 </html>

@@ -11,7 +11,8 @@
 				<ul class="sidebar-nav">
 					<li class="sidebar-close"><a href="#"><i class="fa fa-fw fa-close"></i></a></li>
 					<li><a href="<?php echo base_url('index.php/loket/index'); ?>"><i class="fa fa-fw fa-desktop"></i><span>Dashboard</span></a></li>
-					<li><a href="<?php echo base_url('index.php/loket/payment'); ?>"><i class="fa fa-fw fa-money"></i><span>Pembayaran</span></a></li>
+					<li><a href="<?php echo base_url('index.php/loket/pelanggan'); ?>"><i class="fa fa-user-o"></i><span>Pelanggan</span></a></li>
+					<li><a href="<?php echo base_url('index.php/loket/payment'); ?>"><i class="fa fa-handshake-o"></i><span>Pembayaran</span></a></li>
 					<li><a href="<?php echo base_url('index.php/loket/laporan'); ?>"><i class="fa fa-fw fa-list-alt"></i><span>Laporan</span></a></li>
 				</ul>
 			</div>
