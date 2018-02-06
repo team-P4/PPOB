@@ -93,6 +93,7 @@
 									</div>
 									<div class="alert alert-default" role="alert">
 										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										<button class="btn btn-lg btn-default"><span>dsjdbsj</span></button> 
 										<strong>om telolet, om!</strong> Lorem ipsum dolor sit amet.
 									</div>
 									<div class="alert alert-costum1" role="alert">
@@ -105,22 +106,23 @@
 									</div>
 									<div class="alert alert-costum3" role="alert">
 										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-										<button class="btn btn-lg btn-warning"></button> 
+										<span class="text-warning"><b>Update</b> </span>
 									</div>
 									<?php  
 									$where = array('log_user' => $this->session->userdata('kode_pegawai') );
 									$pem = $this->db->get_where('tabel_log', $where)->result();
 
+									if ($pem != NULL) {
 									foreach ($pem as $kue) {
 									?>
 									<div class="alert alert-costum4" role="alert">
 										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 										<span class="text-success"><b>Pembayaran</b> <?php echo $kue->log_desc; ?></span>
 									</div>
-									<?php } ?>
+									<?php } } else { }?>
 									<div class="alert alert-costum5" role="alert">
 										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-										<button class="btn btn-lg btn-danger"></button> 
+										<span class="text-danger"><b>Delete</b></span>
 									</div>
 									<?php  } ?>
 								</div>
