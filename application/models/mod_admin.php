@@ -63,6 +63,18 @@ class Mod_admin extends CI_Model {
         return $query->row_array();
     }
 
+    public function get_id_gardu()
+    {
+        $query = $this->db->query("SELECT MAX(id_gardu) AS id_gardu FROM gardu");
+        return $query->row_array();
+    }
+
+    public function get_kode_gardu()
+    {
+        $query = $this->db->query("SELECT MAX(kode_gardu) AS kode_gardu FROM gardu");
+        return $query->row_array();
+    }
+
 	public function import_mod($filename)
 	{
 		ini_set('memory_limit', '-1');
@@ -137,15 +149,81 @@ class Mod_admin extends CI_Model {
             
             $ins = array(
                     "id_pelanggan" => $nilai_baru2,
-                    "kode_pegawai" => $worksheet[$key]['A'], 
-                    "nama"     => $worksheet[$key]["B"],
-                    "alamat"   => $worksheet[$key]["C"],
-                    "kodetarif" => $worksheet[$key]["D"],
-                    "kwhterbaru"  => $worksheet[$key]["E"]
+                    "nama"     => $worksheet[$key]["A"],
+                    "provinsi"     => $worksheet[$key]["B"],
+                    "kabupaten_kota"     => $worksheet[$key]["C"],
+                    "kecamatan"     => $worksheet[$key]["D"],
+                    "kelurahan_desa"     => $worksheet[$key]["E"],
+                    "kodepos"     => $worksheet[$key]["F"],
+                    "alamat"   => $worksheet[$key]["G"],
+                    "kodetarif" => $worksheet[$key]["H"],
+                    "id_gardu"  => $worksheet[$key]["I"]
             );
             $this->db->insert('pelanggan', $ins);
         }
 	}
+
+    public function convert_pdf($nama)
+    {
+        $paper_size  = 'A4'; //paper size or (array(0,0,450,360))
+        $orientation = 'landscape'; //tipe format kertas
+        $html = $this->output->get_output();
+                     
+        $this->dompdf->set_paper($paper_size, $orientation);
+        //Convert to PDF
+        $this->dompdf->load_html($html);
+        $this->dompdf->render();
+        $this->dompdf->stream($nama, array('Attachment'=> true));
+    }
+
+    public function convert_pdf1($ukur,$type,$nama)
+    {
+        $paper_size  = $ukur; //paper size or (array(0,0,450,360))
+        $orientation = $type; //tipe format kertas 
+        $html = $this->output->get_output();
+                     
+        $this->dompdf->set_paper($paper_size, $orientation);
+        //Convert to PDF
+        $this->dompdf->load_html($html);
+        $this->dompdf->render();
+        $this->dompdf->stream($nama, array('Attachment'=> true));
+    }
+
+    function provinsi(){
+        $this->db->order_by('name','ASC');
+        $provinces= $this->db->get('provinces');
+        return $provinces->result_array();
+    }
+
+    function kabupaten($provId){
+        $kabupaten="<option value='0'>-- Pilih Kabupaten --</option>";
+        $this->db->order_by('name','ASC');
+        $kab= $this->db->get_where('regencies',array('province_id'=>$provId));
+        foreach ($kab->result_array() as $data ){
+            $kabupaten.= "<option value='$data[id]'>$data[name]</option>";
+        }
+        return $kabupaten; 
+    }
+
+    function kecamatan($kabId){
+        $kecamatan="<option value='0'>-- Pilih Kecamatan --</option>";
+        $this->db->order_by('name','ASC');
+        $kec= $this->db->get_where('districts',array('regency_id'=>$kabId));
+        foreach ($kec->result_array() as $data ){
+        $kecamatan.= "<option value='$data[id]'>$data[name]</option>";
+        }
+        return $kecamatan;
+    }   
+
+    function kelurahan($kecId){
+        $kelurahan="<option value='0'>-- Pilih Kelurahan --</option>";
+        $this->db->order_by('name','ASC');
+        $kel= $this->db->get_where('villages',array('district_id'=>$kecId));
+        foreach ($kel->result_array() as $data ){
+        $kelurahan.= "<option value='$data[id]'>$data[name]</option>";
+        }
+        return $kelurahan;
+    }
 }
 
 /* End of file mod_admin.php */

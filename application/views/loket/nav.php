@@ -14,12 +14,12 @@
 
 						</div>
 						<div class="collapse navbar-collapse" id="menu">
-							<p class="nav navbar-brand text-size-24" style="padding-left: 380px;">Saldo: <?php 
+							<p class="nav navbar-brand text-size-24" style="padding-left: 380px;"><span class="">Saldo: <?php 
 							$where = array('kode_pegawai' => $this->session->userdata('kode_pegawai') );
 							$ia = $this->mod_admin->tampil_di('user',$where);
 
 							$saldo = $ia[0]->saldo; 
-							echo number_format($saldo,2,',','.');?></p>
+							echo number_format($saldo,2,',','.');?></span></p>
 							<ul class="nav navbar-nav navbar-right ">
 								<li class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">

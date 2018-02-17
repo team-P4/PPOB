@@ -1,4 +1,3 @@
-<?php error_reporting(0); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,6 +30,18 @@
                             if ($number==1) {
                             ?>
                             <?php }elseif ($number==0) {
+                                 $where21 = array('id_pelanggan' => $id,
+                                                'status' => 0 );
+                                $il = $this->db->get_where('tagihan', $where21)->result();
+                                $where1 = array('id_pelanggan' => $id);
+                                $where2 = array('id_pelanggan' => $id,
+                                                'status' => 0 );
+                                $ala = $this->db->get_where('tagihan', $where1)->result();
+                                $ili = $this->db->get_where('tagihan', $where2)->result();
+                                if (count($ala) != 0) {
+                                    if (count($ili) == 3) {
+                                    echo "maaf anda memiliki 3 tagihan yang belum terbayarkan... jika ingin melunasinya, anda bisa ke PLN nya langsung";
+                                        } else {
                             ?>
                             <div class="panel panel-default">
                                 <div class="panel-body">
@@ -56,6 +67,9 @@
                                                 <?php } ?>  
                                             </div>
                                             <div class="col-md-9">
+                                                <?php  
+                                                if (count($il) != 0) {
+                                                ?>
                                                 <div class="form-group">
                                                     <label class="control-label">Daftar Tagihan Pelanggan Yang Belum Lunas :</label>
                                                 </div>
@@ -72,6 +86,8 @@
                                                     <tbody>
                                                         <?php
                                                         $total = 0;
+                                                        $total_hrg = 0;
+                                                        $total1 = 0;
                                                         foreach ($data as $d) {
                                                             $total += $d->total_biaya;
                                                             $total1 =  0  + $total;
@@ -128,6 +144,13 @@
                                                         </tr>
                                                     </tfoot>
                                                 </table> <br>
+                                                <?php }
+                                                $where4 = array('id_pelanggan' => $id,
+                                                                'status' => 1 );
+                                                $lul = $this->db->get_where('tagihan', $where4)->result();
+
+                                                if (count($lul) != 0) {
+                                                ?>
                                                 <label class="control-label">Daftar Tagihan Pelanggan Yang Sudah Lunas :</label>
                                                  <table class="table table-striped table-bordered">
                                                     <thead>
@@ -153,12 +176,17 @@
                                                         <?php } ?>
                                                     </tbody>
                                                 </table>   
+                                                <?php } ?>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                             </div>
-                            <?php }  ?>
+                            <?php }
+                                } else{
+                            echo "kosong nak";
+                                }
+                             }  ?>
                         </div>  
                     </div>
 				</div>

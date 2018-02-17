@@ -28,6 +28,7 @@ class Login extends CI_Controller {
 		 					   'saldo' => $cek[0]->saldo,
 		 					   'status' => 'login' );
 		 $this->session->set_userdata($data_session);
+		 helper_log("login", "User ".$cek[0]->username." telah login");
 		 redirect('admin');
 		}elseif ($cek[0]->level == 'loket') {
 		 $data_session = array('nama' => $this->input->post('user') ,
@@ -35,6 +36,7 @@ class Login extends CI_Controller {
 		 					   'saldo' => $cek[0]->saldo,
 		 					   'status' => 'login' );
 		 $this->session->set_userdata($data_session);
+		 helper_log("login", "User ".$cek[0]->username." telah login");
 		 redirect('loket');
 		}else{
 			redirect('login');
@@ -44,6 +46,7 @@ class Login extends CI_Controller {
 
 	public function logout()
 	{
+		helper_log("logout", "User ".$cek[0]->username." telah logout");
 		$this->session->sess_destroy();
 		redirect('login');
 	}

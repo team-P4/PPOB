@@ -17,12 +17,7 @@ class Loket extends CI_Controller {
 	{
 		$this->load->view('loket/index');	
 	}
-	public function pelanggan()
-	{
-		$this->db->where('kode_pegawai', $this->session->userdata('kode_pegawai'));
-		$data['pel'] = $this->db->get('pelanggan')->result();
-		$this->load->view('loket/pelanggan',$data);
-	}
+
 	public function payment()
 	{
 		$data['number'] = 1;
@@ -40,6 +35,7 @@ class Loket extends CI_Controller {
 		$where2 = array('id_pelanggan' => $id,
 					   'status' => '1');
 		$where1 = array('id_pelanggan' => $id);
+		$data['id'] = $id;
 		$data['data']=$this->mod_admin->tampil_di('tagihan',$where);
 		$data['number'] = 0;
 		$data['name']=$this->mod_admin->tampil_di('pelanggan',$where1);

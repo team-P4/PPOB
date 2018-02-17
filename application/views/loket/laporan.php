@@ -17,10 +17,29 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h1 class="panel-title" style="color: black;">Cetak Laporan</h1>
-									<span class="text-grey">Cetak Berdasarkan :</span>
+									<span class="text-grey">Cetak Berdasarkan : Transaksi dan Pendapatan</span>
 								</div>
 								<div class="panel-body">
-									<form class="form-horizontal" target="_blank" action="<?php echo base_url('index.php/Import/laporan_loket'); ?>" method="POST">
+									<div class="col-lg-5">
+										<form class="form-horizontal" target="_blank" action="<?php echo base_url('index.php/Import/laporan_loket'); ?>" method="POST">
+										<div class="form-group">
+											<label for="inputPassword3" class="col-sm-2 control-label">Tanggal</label>
+											<div class="col-sm-10">
+												<select name="hari" id="" class="form-control input-md">
+													<option value="semua">Semua</option>
+												<?php 
+												$zero = '0';
+												for ($i=1; $i <= 32; $i++) { 
+													if ($i > 9) {
+														$zero = '';
+													}
+
+													echo '<option value="'.$zero . $i.'">'.$i.'</option>';
+												}
+												?>
+												</select>
+											</div>
+										</div>
 										<div class="form-group">
 											<label for="inputPassword3" class="col-sm-2 control-label">Bulan</label>
 											<div class="col-sm-10">
@@ -56,7 +75,7 @@
 											</div>
 										</div>
 										<div class="form-group">
-											<label for="inputPassword3" class="col-sm-2 control-label">Berdasarkan</label>
+											<label for="inputPassword3" class="col-sm-2 control-label">Status</label>
 											<div class="col-sm-10">
 												<select class="form-control" name="berdasarkan">								<option value="transaksi">Transaksi</option>
 													<option value="pendapatan">Pendapatan</option>
@@ -79,6 +98,49 @@
 											</div>
 										</div>
 									</form>
+									</div>
+									<div class="col-lg-2">
+										<center><span class="text-size-22"><i></i>Or</span></center><br><br>
+									</div>
+									<div class="col-lg-5">
+										<form class="form-horizontal" target="_blank" action="<?php echo base_url('index.php/Import/laporan_loketming'); ?>" method="POST">
+										<div class="form-group">
+											<label for="inputPassword3" class="col-sm-2 control-label">Tanggal</label>
+											<div class="col-sm-4">
+												<input type="date" class="form-control" name="tgl1">
+											</div>
+											<div class="col-sm-1">
+												<span>-</span>
+											</div>
+											<div class="col-sm-5">
+												<input type="date" class="form-control" name="tgl2">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputPassword3" class="col-sm-2 control-label">Status</label>
+											<div class="col-sm-10">
+												<select class="form-control" name="berdasarkan">								<option value="transaksi">Transaksi</option>
+													<option value="pendapatan">Pendapatan</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+												<div class="checkbox">
+													<label>
+														<input type="radio" name="laporan" value="excel"> <b>Excel</b>&nbsp&nbsp
+														<input type="radio" name="laporan" value="pdf"> <b>PDF </b>
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+												<button type="submit" class="btn btn-primary">Print</button>
+											</div>
+										</div>
+									</form>
+									</div>
 								</div>
 							</div>
 						</div>

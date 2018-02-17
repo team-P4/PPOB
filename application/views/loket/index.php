@@ -6,6 +6,41 @@
 	<script src="<?php echo base_url(); ?>assets/js/chart/Chart.bundle.js"></script>
 	<script src="<?php echo base_url(); ?>assets/js/utils.js"></script>
 	<script src="<?php echo base_url(); ?>assets/js/chart/analyser.js"></script>
+	<style type="text/css">
+		.btn-costum {
+			background-color: #930522;
+			color: #ffffff;
+		}
+		.btn-default {
+			background-color: #ff2854;
+			border-color: #fc0033;
+			color: #ffffff;
+		}
+		.alert-costum1{
+			background-color: #f9f7f7;
+			border-color: #07b3f7;
+		}
+		.alert-costum2 {
+			background-color: #f9f7f7;
+			border-color: #072af7;
+			color: #ffffff;
+		}
+		.alert-costum3 {
+			background-color: #f9f7f7;
+			border-color: #f79b07;
+			color: #ffffff;
+		}
+		.alert-costum4 {
+			background-color: #f9f7f7;
+			border-color: #10a335;
+			color: #ffffff;
+		}
+		.alert-costum5 {
+			background-color: #f9f7f7;
+			border-color: #ff0000;
+			color: #ffffff;
+		}
+	</style>
 	<title>Floyd</title>
 </head>
 <body>
@@ -78,58 +113,64 @@
 							</div>
 						</div>
 						<div class="col-xs-12 col-sm-4">
-							<div class="panel panel-info">
+							<div class="panel panel-info" style="max-height: 348px; overflow: scroll">
 								<div class="panel-heading">
-									<span class="text-size-22"><i class="fa fa-bookmark-o space-right-10"></i>Notifikasi</span>
+									<span class="text-size-22"><i class="fa fa-info space-right-10"></i>Info</span>
 								</div>
 								<div class="panel-body">
 									<?php  
-									$date = date("Y-m-d");
-									if ($date) {
+									$d = date("d");
+									$b = date("m");
+									$Y = date("Y");
+									$sess = $this->session->userdata('kode_pegawai');
+									$login = $this->db->query("SELECT log_time,log_desc FROM tabel_log WHERE log_user = '$sess' AND date_format(log_time, '%d') = '$d' AND date_format(log_time, '%m') = '$b' AND date_format(log_time, '%Y') = '$Y' AND log_tipe = '0' ORDER BY log_id DESC LIMIT 1 ")->result();
+
+									foreach ($login as $co) {
+									?>
+									<div class="alert alert-costum1" role="alert">
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										<span class="text-info"><b>Login</b> <?php echo $co->log_desc." pada ".$co->log_time; ?></span> 
+									</div>
+									<?php } 
+
+									$logout = $this->db->query("SELECT * FROM tabel_log WHERE log_user = '$sess' AND date_format(log_time, '%d') = '$d' AND date_format(log_time, '%m') = '$b' AND date_format(log_time, '%Y') = '$Y' AND log_tipe = '1' ORDER BY log_id DESC LIMIT 1 ")->result();
+									foreach ($logout as $bl) {
 									?>
 									<div class="alert alert-costum" role="alert">
 										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-										<button class="btn btn-lg btn-costum"></button> 
+										<span style="color: #f90411;"><b>Logout</b> <?php echo $bl->log_desc." pada ".$bl->log_time; ?></span>
 									</div>
-									<div class="alert alert-default" role="alert">
-										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-										<button class="btn btn-lg btn-default"><span>dsjdbsj</span></button> 
-										<strong>om telolet, om!</strong> Lorem ipsum dolor sit amet.
-									</div>
-									<div class="alert alert-costum1" role="alert">
-										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-										<button class="btn btn-lg btn-info"></button> 
-									</div>
-									<div class="alert alert-costum2" role="alert">
-										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-										<button class="btn btn-lg btn-primary"></button> 
-									</div>
+									<?php  } 
+
+									$excel = $this->db->query("SELECT * FROM tabel_log WHERE log_user = '$sess' AND date_format(log_time, '%d') = '$d' AND date_format(log_time, '%m') = '$b' AND date_format(log_time, '%Y') = '$Y' AND log_tipe = '6' ORDER BY log_id DESC LIMIT 1 ")->result();
+									foreach ($excel as $lu) {
+									?>
 									<div class="alert alert-costum3" role="alert">
 										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-										<span class="text-warning"><b>Update</b> </span>
+										<span class="text-warning"><b>Export Excel</b> <?php echo $lu->log_desc." pada ".$lu->log_time; ?></span>
 									</div>
-									<?php  
-									$where = array('log_user' => $this->session->userdata('kode_pegawai') );
-									$pem = $this->db->get_where('tabel_log', $where)->result();
+									<?php  }
 
-									if ($pem != NULL) {
+									$pdf = $this->db->query("SELECT * FROM tabel_log WHERE log_user = '$sess' AND date_format(log_time, '%d') = '$d' AND date_format(log_time, '%m') = '$b' AND date_format(log_time, '%Y') = '$Y' AND log_tipe = '7' ORDER BY log_id DESC LIMIT 1 ")->result();
+									foreach ($pdf as $sayang) {
+									?>
+									<div class="alert alert-costum5" role="alert">
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										<span class="text-danger"><b>Export PDF</b> <?php echo $sayang->log_desc." pada ".$sayang->log_time; ?></span>
+									</div>
+									<?php }
+
+									$pem = $this->db->query("SELECT * FROM tabel_log WHERE log_user = '$sess' AND date_format(log_time, '%d') = '$d' AND date_format(log_time, '%m') = '$b' AND date_format(log_time, '%Y') = '$Y' AND log_tipe = '5' ORDER BY log_id DESC LIMIT 1 ")->result();
+
 									foreach ($pem as $kue) {
 									?>
 									<div class="alert alert-costum4" role="alert">
 										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 										<span class="text-success"><b>Pembayaran</b> <?php echo $kue->log_desc; ?></span>
 									</div>
-									<?php } } else { }?>
-									<div class="alert alert-costum5" role="alert">
-										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-										<span class="text-danger"><b>Delete</b></span>
-									</div>
-									<?php  } ?>
+									<?php }?>
 								</div>
 							</div>
-						</div>
-						<div class="col-xs-12">
-							
 						</div>
 					</div>
 				</div>
