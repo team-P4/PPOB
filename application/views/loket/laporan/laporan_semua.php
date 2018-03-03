@@ -14,7 +14,6 @@
 	<tr>
 		<th align="center">ID Pembayaran</th>
 		<th align="center">Nama Pelanggan</th>
-		<th align="center">Loket</th>
 		<th align="center">Jumlah Tagihan(Rp.)</th>
 		<th align="center">Biaya PLN(Rp.)</th>
 		<th align="center">Biaya Loket(Rp.)</th>
@@ -32,10 +31,6 @@
 				  $data = $this->db->get('pelanggan')->result();
 			echo $data[0]->nama;	  
 			 ?></td>
-		<td><?php $this->db->where('kode_pegawai', $key->id_loket);
-				  $data = $this->db->get('user')->result();
-			echo $data[0]->username; 
-			?></td>
 		<td align="right"><?php echo number_format($key->jml_tagihan,2,',','.'); ?></td>
 		<td align="right"><?php echo number_format($key->biaya_pln,2,',','.'); ?></td>
 		<td align="right"><?php echo number_format($key->biaya_loket,2,',','.'); ?></td>

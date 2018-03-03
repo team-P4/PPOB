@@ -99,6 +99,7 @@
 		</div>
 	</div>
 </div>
+										<?php echo $this->session->flashdata('pesan'); ?>
 										<form action="<?php echo base_url('index.php/Admin/input_pelanggan'); ?>" method="POST" style="border-radius: 0px;" class="form-horizontal group-border-dashed">
 											<div class="col-xs-12 col-md-6">
 												<div class="form-group">
@@ -116,12 +117,26 @@
 															<?php 
 															$tarif = $this->db->get('tarif')->result();
 															foreach ($tarif as $key) {
-																echo '<option value="'.$key->kode_tarif.'">'.$key->kode_tarif.'</option>\n';
+																echo '<option value="'.$key->id_tarif.'">'.$key->kode_tarif.'</option>\n';
 															}
 															?>
 														</select>
 													</div>
 												</div>
+												<div class="form-group">
+													<label class="col-sm-3 control-label">Gardu</label>
+													<div class="col-sm-6">
+														<select required="" class="form-control" name="gardu">
+															<option value='0'>-- Pilih Gardu --</option>
+															<?php  
+															$gar = $this->db->get('gardu')->result();
+															foreach ($gar as $key) {
+																echo '<option value="'.$key->id_gardu.'">'.$key->id_gardu.'-'.$key->nama_gardu.'-'.$key->kode_gardu.'-'.$key->jln.'</option>\n';
+															}
+															?>
+														</select>
+													</div>
+												</div>	
 												<div class="form-group">
 													<label class="col-sm-3 control-label">Provinsi</label>
 													<div class="col-sm-6">
@@ -143,6 +158,8 @@
 														</select>
 													</div>
 												</div>
+											</div>
+											<div class="col-xs-12 col-md-6">
 												<div class="form-group">
 													<label class="col-sm-3 control-label">Kecamatan</label>
 													<div class="col-sm-6">
@@ -151,8 +168,6 @@
 														</select>
 													</div>
 												</div>
-											</div>
-											<div class="col-xs-12 col-md-6">
 												<div class="form-group">
 													<label class="col-sm-3 control-label">Kelurahan</label>
 													<div class="col-sm-6">
@@ -161,20 +176,6 @@
 														</select>
 													</div>
 												</div>
-												<div class="form-group">
-													<label class="col-sm-3 control-label">Gardu</label>
-													<div class="col-sm-6">
-														<select required="" class="form-control" name="gardu">
-															<option value='0'>-- Pilih Gardu --</option>
-															<?php  
-															$gar = $this->db->get('gardu')->result();
-															foreach ($gar as $key) {
-																echo '<option value="'.$key->id_gardu.'">'.$key->id_gardu.'-'.$key->nama_gardu.'-'.$key->kode_gardu.'-'.$key->jln.'</option>\n';
-															}
-															?>
-														</select>
-													</div>
-												</div>	
 												<div class="form-group">
 													<label class="col-sm-3 control-label">Kode Pos</label>
 													<div class="col-sm-6">
@@ -228,7 +229,7 @@
 					</p>
 				</div>
 				<div class="modal-footer">
-					<center><a href="<?php echo base_url('index.php/Import/export_pelanggan_xlsx'); ?>" class="btn btn-default"><i class="fa fa-file-excel-o"></i><span> Excel</span></a><a href="<?php echo base_url('index.php/Import/export_pelanggan_pdf'); ?>" target="_blank" class="btn btn-default"><i class="fa fa-file-pdf-o"></i><span> PDF</span></a></center>
+					<center><a href="<?php echo base_url('index.php/Import/export_pelanggan_xlsx'); ?>" target="_blank" class="btn btn-default"><i class="fa fa-file-excel-o"></i><span> Excel</span></a><a href="<?php echo base_url('index.php/Import/export_pelanggan_pdf'); ?>" target="_blank" class="btn btn-default"><i class="fa fa-file-pdf-o"></i><span> PDF</span></a></center>
 				</div>
 			</div>
 		</div>
@@ -255,7 +256,11 @@
 							                    		<th><input type="checkbox" name="pel[]" value="<?= $key->id_pelanggan ?>"></th>
 							                    		<td><?php echo $no++; ?></td>
 							                    		<td><?php echo $key->nama; ?></td>
-							                    		<td><?php echo $key->kodetarif; ?></td>
+							                    		<td><?php 
+							                    		$this->db->where('id_tarif', $key->kodetarif);
+														$dsb = $this->db->get('tarif')->result();
+														echo $dsb[0]->kode_tarif;
+							                    		?></td>
 							                    		<td align="center">
 							                    			<a href="#" class="btn btn-floyd" data-toggle="modal" data-target="#myModal<?php echo $key->id_pelanggan; ?>" data-class="modal-default"><i class="fa fa-ellipsis-h"></i></a>
 <!-- modal -->
@@ -272,7 +277,7 @@
 					<span class="text-size-24">Detail Pelanggan <?php echo $key->nama; ?></span><br><br>
 				</p>	
 						<span class="col-sm-2"></span>
-						<span class="col-sm-3 text-size-18 text-left">ID Pelanggan</span>
+						<span class="col-sm-3 text-size-18 text-left">ID </span>
 						<span class="col-sm-6 text-size-18">
 									<b><?php echo $key->id_pelanggan; ?></b>
 						</span><br>
@@ -284,30 +289,56 @@
 						<span class="col-sm-2"></span>
 						<span class="col-sm-3 text-size-18 text-left">Kode Tarif</span>
 						<span class="col-sm-6 text-size-18">
-									<b><?php echo $key->kodetarif; ?></b>
+									<b><?php 
+									$this->db->where('id_tarif', $key->kodetarif);
+									$dsb = $this->db->get('tarif')->result();
+									echo $dsb[0]->kode_tarif; 
+									?></b>
+						</span><br>
+						<span class="col-sm-2"></span>
+						<span class="col-sm-3 text-size-18 text-left">Gardu</span>
+						<span class="col-sm-6 text-size-18">
+									<b><?php 
+									$this->db->where('id_gardu', $key->id_gardu);
+									$gardu = $this->db->get('gardu')->result();
+
+									echo $gardu[0]->id_gardu."-".$gardu[0]->nama_gardu."-".$gardu[0]->kode_gardu."-".$gardu[0]->jln;
+									?></b>
 						</span><br>
 						<span class="col-sm-2"></span>
 						<span class="col-sm-3 text-size-18 text-left">Provinsi</span>
 						<span class="col-sm-6 text-size-18">
-									<b><?php echo $key->provinsi; 
+									<b><?php 
+									$this->db->where('id', $key->provinsi);
+									$prov = $this->db->get('provinces')->result();
+									echo $prov[0]->name; 
 									?></b>
 						</span><br>
 						<span class="col-sm-2"></span>
 						<span class="col-sm-3 text-size-18 text-left">Kabupaten</span>
 						<span class="col-sm-6 text-size-18">
-									<b><?php echo $key->kabupaten_kota; 
+									<b><?php 
+									$this->db->where('id', $key->kabupaten_kota);
+									$kab = $this->db->get('regencies')->result();
+									echo $kab[0]->name; 
 									?></b>
 						</span><br>
 						<span class="col-sm-2"></span>
 						<span class="col-sm-3 text-size-18 text-left">Kecamatan</span>
 						<span class="col-sm-6 text-size-18">
-									<b><?php echo $key->kecamatan; 
+									<b><?php 
+									$this->db->where('id', $key->kecamatan);
+									$kab = $this->db->get('districts')->result();
+									echo $kab[0]->name; 
 									?></b>
 						</span><br>
 						<span class="col-sm-2"></span>
 						<span class="col-sm-3 text-size-18 text-left">Kelurahan</span>
 						<span class="col-sm-6 text-size-18">
-									<b><?php echo $key->kelurahan_desa; 
+									<b><?php 
+									$this->db->where('id', $key->kelurahan_desa);
+									$kel = $this->db->get('villages')->result();
+									echo $kel[0]->name; 
 									?></b>
 						</span><br>
 						<span class="col-sm-2"></span>
@@ -353,5 +384,12 @@
 	$(document).ready(function(){
     $('#myTable').DataTable();
 });
+</script>
+<script type="text/javascript">
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 4000);
 </script>
 </html>

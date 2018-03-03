@@ -7,9 +7,15 @@ class Login extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('mod');
+		$this->load->helper('url');
 	}
 
 	public function index()
+	{
+		$this->load->view('home/index');
+	}
+
+	public function login()
 	{
 		$this->load->view('login/index');		
 	}
@@ -39,7 +45,7 @@ class Login extends CI_Controller {
 		 helper_log("login", "User ".$cek[0]->username." telah login");
 		 redirect('loket');
 		}else{
-			redirect('login');
+			redirect('login/login');
 		}
 
 	}

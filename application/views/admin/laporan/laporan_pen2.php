@@ -4,39 +4,40 @@
 	<title></title>
 </head>
 <body>
+<center>
+	<h1>PPOB</h1>
+	<b>Terus Menyala, Menyala Terus</b><br>
+	...............<br>
+	<hr width="100%" height="75"></hr><br>
+</center>
 <table border="1">
 	<tr>
-		<th>No.</th>
-		<th>Loket</th>
-		<th>Bulan</th>
-		<?php
-		$link = mysqli_connect("localhost","root","","ppob");
-	    $starting_year  =date('Y', strtotime('-10 year'));
-	    $ending_year = date('Y');
-	    $current_year = date('Y');
-	    for($starting_year; $starting_year <= $ending_year; $starting_year++) {
-	        	echo "<th>".$starting_year."</th>";
-	        }               
-	    ?>
+		<th align="center">ID Loket</th>
+		<th align="center">Nama Loket</th>
+		<th align="center"><?= $tahun ?></th>
 	</tr>
-	<?php $bulan = array('01' => 'Januari', '02' => 'Febuari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember');
-	$nu = 0; $no = 1; foreach ($loket as $ar) {?>
+	<?php
+	$tot = 0;  
+	$this->db->where('level', 'loket');
+	$pen2 = $this->db->get('user')->result();
+
+	foreach ($pen2 as $key) {
+	?>
 	<tr>
-		<td><?= $no++ ?></td>
-		<td><?= $ar->username ?></td>
-		<td><?= $bulan[$month] ?></td>
-		<?php
-	    $starting_year  =date('Y', strtotime('-10 year'));
-	    $ending_year = date('Y');
-	    $current_year = date('Y');
-	    for($starting_year; $starting_year <= $ending_year; $starting_year++) {
-	    		$query1 = mysqli_query($link, "SELECT SUM(total) FROM pembayaran WHERE id_loket='$ar->kode_pegawai' AND date_format(tglbayar, '%m')='$month' AND date_format(tglbayar, '%Y')='$starting_year' ");
-	    		$show1 = mysqli_fetch_array($query1);
-	        	echo "<td>".$show1['SUM(total)']."</td>";
-	        }               
-	    ?>
+		<td align="left"><?= $key->kode_pegawai ?></td>
+		<td align="center"><?= $key->username ?></td>
+		<?php 
+		$has = $this->db->query("SELECT SUM(total) as total FROM pembayaran WHERE date_format(tglbayar, '%Y')='$tahun' AND id_loket='$key->kode_pegawai' ")->result();
+		foreach ($has as $lue) {
+			echo '<td align="right">'.number_format($lue->total,2,',','.').'</td>';
+			$tot += $lue->total;
+		}?>
 	</tr>
 	<?php } ?>
+	<tr>
+		<td colspan="2" align="center">total</td>
+		<td align="right"><?= number_format($tot,2,',','.') ?></td>
+	</tr>
 </table>
 </body>
 </html>

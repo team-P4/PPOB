@@ -110,6 +110,7 @@ class Mod_admin extends CI_Model {
                     "kode_pegawai" => $nilai_baru2, 
                     "username"     => $worksheet[$key]['A'],
                     "password"   => $worksheet[$key]["B"],
+                    "saldo" => 500000,
                     "level"      => $worksheet[$key]["C"]
             );
             $this->db->insert('user', $ins);
@@ -145,15 +146,25 @@ class Mod_admin extends CI_Model {
             // $exp_tgl_asli = explode('-', $tgl_asli);
             // $exp_tahun = explode(' ', $exp_tgl_asli[2]);
             // $tgl_sql = $exp_tahun[0].'-'.$exp_tgl_asli[0].'-    '.$exp_tgl_asli[1].' '.$exp_tahun[1];
-            
+            $this->db->where('name', $worksheet[$key]["B"]);
+            $prov = $this->db->get('provinces')->result();
+
+            $this->db->where('name', $worksheet[$key]["C"]);
+            $kab = $this->db->get('regencies')->result();
+
+            $this->db->where('name', $worksheet[$key]["D"]);
+            $kec = $this->db->get('districts')->result();
+
+            $this->db->where('name', $worksheet[$key]["E"]);
+            $kel = $this->db->get('villages')->result();
             
             $ins = array(
                     "id_pelanggan" => $nilai_baru2,
                     "nama"     => $worksheet[$key]["A"],
-                    "provinsi"     => $worksheet[$key]["B"],
-                    "kabupaten_kota"     => $worksheet[$key]["C"],
-                    "kecamatan"     => $worksheet[$key]["D"],
-                    "kelurahan_desa"     => $worksheet[$key]["E"],
+                    "provinsi"     => $prov[0]->id,
+                    "kabupaten_kota"     => $kab[0]->id,
+                    "kecamatan"     => $kec[0]->id,
+                    "kelurahan_desa"     => $kel[0]->id,
                     "kodepos"     => $worksheet[$key]["F"],
                     "alamat"   => $worksheet[$key]["G"],
                     "kodetarif" => $worksheet[$key]["H"],
@@ -224,6 +235,7 @@ class Mod_admin extends CI_Model {
         }
         return $kelurahan;
     }
+
 }
 
 /* End of file mod_admin.php */

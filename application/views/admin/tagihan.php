@@ -14,6 +14,7 @@
 			<div id="content">
 				<div class="container-fluid">
 					<div class="panel panel-default">
+						<?php echo $this->session->flashdata('pesan'); ?>
 						<div class="panel-body">
 							<table class="table table-bordered" id="myTable">
 							<thead>
@@ -35,7 +36,10 @@
 						           	<form method="post" action="<?php echo base_url('index.php/Admin/input_tagihan/').$key->id_pelanggan; ?>">
 						           		<td><?php echo $key->id_pelanggan; ?></td>
 						           		<td><?php echo $key->nama; ?></td>
-						          		<td><?php echo $key->kodetarif; ?></td>
+						          		<td><?php 
+						          		$this->db->where('id_tarif', $key->kodetarif);
+										$dsb = $this->db->get('tarif')->result();
+										echo $dsb[0]->kode_tarif; ?></td>
 						          		<td><input type="date" name="tgl"></td>
 						           		<td>
 						           				<input type="hidden" name="kode" value="<?php echo $key->kodetarif; ?>">
@@ -58,6 +62,13 @@
 	$(document).ready(function(){
     $('#myTable').DataTable();
 });
+</script>
+<script type="text/javascript">
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 4000);
 </script>
 </body>
 </html>

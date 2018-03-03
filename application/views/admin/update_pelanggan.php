@@ -87,8 +87,8 @@
 												$link = mysqli_connect('localhost','root','','ppob');
 		                                        $query = mysqli_query($link,"SELECT * FROM tarif");
 		                                        while ($data = mysqli_fetch_array($query)) { 
-		                                        echo '<option value="'.$data['kode_tarif'].'"';
-		                                                if( $data['kode_tarif'] ==  $key->kodetarif ) {
+		                                        echo '<option value="'.$data['id_tarif'].'"';
+		                                                if( $data['id_tarif'] ==  $key->kodetarif ) {
 		                                                echo ' selected="selected"';
 		                                                }
 		                                                echo ' >'.$data['kode_tarif'].'</option>';
@@ -105,7 +105,11 @@
 												<option value='0'>-- Pilih Provinsi --</option>
 											<?php 
 												foreach ($provinsi as $prov) {
-												echo "<option value='$prov[id]'>$prov[name]</option>";
+												echo "<option value='$prov[id]' ";
+												if ($prov['id'] == $key->provinsi) {
+													echo ' selected="selected"';
+												}
+												echo ">$prov[name]</option>";
 												}
 											?>
 											</select>

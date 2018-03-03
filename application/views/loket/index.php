@@ -51,8 +51,7 @@
 			<div id="content">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-xs-12">
-							<div class="col-xs-12 col-md-4">
+						<div class="col-xs-12 col-md-4">
 								<div class="panel panel-info panel-fill">
 									<div class="panel-heading">
 										<span class="text-size-22"><i class="fa fa-clone space-right-10"></i>Saldo</span>
@@ -65,8 +64,8 @@
 											echo number_format($saldo,2,',','.'); ?> ,-</p>
 									</div>
 								</div>
-							</div>
-							<div class="col-xs-12 col-md-4">
+						</div>
+						<div class="col-xs-12 col-md-4">
 								<div class="panel panel-danger panel-fill">
 									<div class="panel-heading">
 										<span class="text-size-22"><i class="fa fa-clone space-right-10"></i>Keuntungan Bulan Ini</span>
@@ -85,8 +84,8 @@
 										<p class="break-top-10 text-size-16">Rp. <?php echo number_format($sum,2,',','.'); ?> ,-</p>
 									</div>
 								</div>
-							</div>
-							<div class="col-xs-12 col-md-4">
+						</div>
+						<div class="col-xs-12 col-md-4">
 								<div class="panel panel-success panel-fill">
 									<div class="panel-heading">
 										<span class="text-size-22"><i class="fa fa-clone space-right-10"></i>Uang Terima Bulan Ini</span>
@@ -105,8 +104,9 @@
 										<p class="break-top-10 text-size-16">Rp. <?php echo number_format($sumg,2,',','.'); ?> ,-</p>
 									</div>
 								</div>
-							</div>
 						</div>
+					</div>
+					<div class="row">
 						<div class="col-xs-12 col-sm-8">
 							<div class="panel panel-default">
 								<canvas id="canvas" style="width: : 70%;"></canvas>

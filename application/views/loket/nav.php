@@ -1,4 +1,4 @@
-<div id="top-nav">
+	<div id="top-nav">
 				<nav class="navbar navbar-default">
 					<div class="container-fluid">
 						<div class="navbar-header">
@@ -14,12 +14,12 @@
 
 						</div>
 						<div class="collapse navbar-collapse" id="menu">
-							<p class="nav navbar-brand text-size-24" style="padding-left: 380px;"><span class="">Saldo: <?php 
+							<!-- <p class="nav navbar-brand text-size-24" style="padding-left: 380px;"><span class="">Saldo: <?php 
 							$where = array('kode_pegawai' => $this->session->userdata('kode_pegawai') );
 							$ia = $this->mod_admin->tampil_di('user',$where);
 
 							$saldo = $ia[0]->saldo; 
-							echo number_format($saldo,2,',','.');?></span></p>
+							echo number_format($saldo,2,',','.');?></span></p> -->
 							<ul class="nav navbar-nav navbar-right ">
 								<li class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -28,8 +28,8 @@
 											<i class="fa fa-user fa-stack-1x"></i>
 										</span>
 									</a>
-									<ul class="dropdown-menu">
-										<li><a href="#"><i class="fa fa-fw fa-user"></i> Info</a></li>
+									<ul class="dropdown-menu">	
+										<!-- <li><a href="#"><i class="fa fa-fw fa-user"></i> Info</a></li> -->
 										<li><a href="<?php echo base_url('index.php/login/logout'); ?>"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
 									</ul>
 								</li>

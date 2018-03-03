@@ -60,10 +60,15 @@
 									<div class="panel-body">
 										<?php  
 										$this->db->where('status', 0);
-										$tet = $this->db->get('tagihan')->result();
-										$jse = count($tet[0]->status);
+										$tet = $this->db->get('tagihan')->num_rows();
+										// $jse = $tet[0]->id_tagihan;
+										if ($tet == 0) {
+											$jujus = 0;
+										} else {
+											$jujus = $tet;
+										}
 										?>
-										<p class="break-top-10 text-size-16"><?php echo $jse; ?> Orang</p>
+										<p class="break-top-10 text-size-16"><?php echo $jujus; ?> Orang</p>
 									</div>
 								</div>
 							</div>
@@ -155,7 +160,7 @@
 						<div class="col-xs-12">
 							<div class="panel panel-warning">
 								<div class="panel-heading">
-									<span class="text-size-22"><i class="fa fa-clone space-right-10"></i>Notifikasi</span>
+									<span class="text-size-22"><i class="fa fa-clone space-right-10"></i>Pelanggan Belum Bayar</span>
 									<a href="<?php echo base_url('index.php/Admin/laporan_tagihan'); ?>" target="_blank" class="btn btn-danger pull-right"><span>Export</span></a>
 								</div>
 								<div class="panel-body">

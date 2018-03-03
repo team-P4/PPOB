@@ -3,6 +3,26 @@
 <head>
 	<?php include 'css.php'; ?>
 	<title>Floyd</title>
+    <style type="text/css">
+        .btn-custom1{
+            background-color: #099CEB;
+            border-color: #099CEB;
+
+            color: #f9f7f7;
+        }
+        .btn-custom1:hover{
+            color: #f9f7f7;
+        }
+        .alert-costum5 {
+            background-color: #f9f7f7;
+            border-color: #ff0000;
+            color: #ff0000;
+        }
+        .panel-custom78.panel-fill {
+            border-color: #bdbebf;
+            background-color: #bdbebf;
+        }
+    </style>
 </head>
 <body>
 	<div id="wrapper">
@@ -11,16 +31,71 @@
 			<?php include 'nav.php'; ?>
 			<div id="content">
 				<div class="container-fluid">
-                    <center><h1>Form Pembayaran</h1></center><br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="panel panel-info panel-fill">
+                                <div class="panel-heading">
+                                    <span class="text-size-22"><i class="fa fa-clone space-right-10"></i>Saldo</span>
+                                </div>
+                                <div class="panel-body">
+                                    <p class="break-top-10 text-size-16">Rp. <?php $kosong = array('kode_pegawai' => $this->session->userdata('kode_pegawai') );
+                                            $ia = $this->mod_admin->tampil_di('user',$kosong);
+
+                                            $saldo = $ia[0]->saldo; 
+                                            echo number_format($saldo,2,',','.'); ?> ,-</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="panel panel-danger panel-fill">
+                                <div class="panel-heading">
+                                    <span class="text-size-22"><i class="fa fa-clone space-right-10"></i>Keuntungan Bulan Ini</span>
+                                </div>
+                                <div class="panel-body">
+                                   <?php  
+                                   $this->db->select('SUM(biaya_loket) as biaya_loket');
+                                   $this->db->where("date_format(tglbayar, '%m') =", date('m'));
+                                   $this->db->where("date_format(tglbayar, '%Y') =", date('Y'));
+                                   $data1 = $this->db->get('pembayaran')->result();
+                                   ?>
+                                    <p class="break-top-10 text-size-16">Rp. <?php echo number_format($data1[0]->biaya_loket,2,',','.'); ?>,-</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="panel panel-success panel-fill">
+                                <div class="panel-heading">
+                                    <span class="text-size-22"><i class="fa fa-clone space-right-10"></i>Uang Terima Bulan Ini</span>
+                                </div>
+                                <div class="panel-body">
+                                   <?php  
+                                   $this->db->select('SUM(total) as total');
+                                   $this->db->where("date_format(tglbayar, '%m') =", date('m'));
+                                   $this->db->where("date_format(tglbayar, '%Y') =", date('Y'));
+                                   $data2 = $this->db->get('pembayaran')->result();
+                                   ?>
+                                    <p class="break-top-10 text-size-16">Rp. <?php echo number_format($data2[0]->total,2,',','.'); ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <section class="content">
+                        <div>
+                            <?php echo $this->session->flashdata('pesan'); ?>
+                        </div>
+                    </section>
 					<div class="row">
                         <div class="col-md-12">
-                            <form class="form-inline" method="get" action="<?php echo base_url('index.php/loket/search/'); ?>">
-                            <div class="form-group">
-                                <input type="text" placeholder="Masukkan ID PELANGGAN" class="form-control" name="id">
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-default">Cari</button>
-                            </div>
+                            <form class="form-horizontal group-border-dashed" method="get" action="<?php echo base_url('index.php/loket/search/'); ?>">
+                                <div class="form-group">
+                                    <!-- <input type="text" placeholder="Masukkan ID PELANGGAN" class="form-control" name="id"> -->
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="Masukkan ID PELANGGAN" name="id" class="form-control">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="submit" class="btn btn-lg btn-custom1"><b>Cari</b></button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
 					</div><br>
@@ -29,6 +104,21 @@
                             <?php
                             if ($number==1) {
                             ?>
+                            <div class="panel panel-custom78 panel-fill">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Tutorial Pembayaran PPOB</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <p class="text-size-16">
+                                        1. Klik pembayaran yang ada di Sidebar sebelah kiri <br>
+                                        2. Cari daftar tagihan di Pencarian yang telah disediakan <br>
+                                        3. Jika pelanggan memiliki tagihan yang belum dibayar maka akan tampil di form pembayaran <br>
+                                        4. Kemudian inputkan uang yang dibayarkan di Inputan yang sudah disediakan <br>
+                                        5. Lalu Klik Bayar, untuk membayar semua tagihan yang ada <br>
+                                        6. Struk akan muncul otomatis <br>
+                                    </p>
+                                </div>
+                            </div>
                             <?php }elseif ($number==0) {
                                  $where21 = array('id_pelanggan' => $id,
                                                 'status' => 0 );
@@ -39,13 +129,25 @@
                                 $ala = $this->db->get_where('tagihan', $where1)->result();
                                 $ili = $this->db->get_where('tagihan', $where2)->result();
                                 if (count($ala) != 0) {
-                                    if (count($ili) == 3) {
-                                    echo "maaf anda memiliki 3 tagihan yang belum terbayarkan... jika ingin melunasinya, anda bisa ke PLN nya langsung";
+                                    if (count($ili) >= 3) {
+                                        $this->db->where('id_pelanggan', $id);
+                                        $am = $this->db->get('pelanggan')->result();
+                                    echo '<div class="panel panel-default panel-fill">
+                                              <div class="panel-body">
+                                              <center>
+                                              <span class="text-size-32"><i class="fa fa-bullhorn fa-2x"></i></span><br><br>
+                                              <span class="text-size-32">Maaf !!</span><br>
+                                              <span class="text-size-18">Pelanggan <b>'.$am[0]->nama.'</b> memiliki 3 tagihan yang belum terbayarkan... jika ingin melunasinya, anda bisa ke PLN nya langsung</span>
+                                              </center>
+                                              <br><br><br><br><br>
+                                              </div>
+                                          </div>
+                                   ';
                                         } else {
                             ?>
                             <div class="panel panel-default">
                                 <div class="panel-body">
-                                    <form action="<?php echo base_url('index.php/loket/tambah_pembayaran'); ?>" method="POST">
+                                    <form action="<?php echo base_url('index.php/loket/tambah_pembayaran'); ?>" method="POST" target="_blank">
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <?php 
@@ -61,7 +163,7 @@
                                                     <label class="control-label"><b><?php echo $n->nama; ?></b></label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="submit" value="Buat Cetak Laporan Pelanggan" class="btn btn-info">
+                                                    <a href="<?php  echo base_url("index.php/Import/cetak_pelanggan/").$n->id_pelanggan; ?>" class="btn btn-info" target="_blank" >Buat Cetak Laporan Pelanggan</a>
                                                 </div>
                                                 </form>
                                                 <?php } ?>  
@@ -130,7 +232,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td colspan="3">Bayar </td>
-                                                            <td align="right"><input type="text" id="bayar" name="bayar" style="border: none;background: none; text-align: right;"></td>
+                                                            <td align="right"><input type="text" id="bayar" placeholder="Isi uang pembayaran disini" name="bayar" style="border: none;background: none; text-align: right;"></td>
                                                             <td></td>
                                                         </tr>
                                                         <tr>
@@ -140,7 +242,7 @@
                                                             <td></td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="5" align="right"><button class="btn btn-lg btn-red btn-theme" data-class="floyd-red">Bayar</button></td>
+                                                            <td colspan="5" align="right"><button class="btn btn-lg btn-red btn-theme" onclick="reload()" data-class="floyd-red">Bayar</button></td>
                                                         </tr>
                                                     </tfoot>
                                                 </table> <br>
@@ -184,7 +286,32 @@
                             </div>
                             <?php }
                                 } else{
-                            echo "kosong nak";
+
+                            echo '<div class="panel panel-default panel-fill alert" role="alert">
+                                      <div class="panel-body">
+                                      <center>
+                                      <span class="text-size-32"><i class="fa fa-bullhorn fa-2x"></i></span><br><br>
+                                      <span class="text-size-24">Maaf !!</span><br>
+                                      <span>ID Pelanggan yang anda cari tidak ada, Mohon cek kembali</span>
+                                      </center>
+                                      </div>
+                                  </div>
+                                  <div class="panel panel-custom78 panel-fill">
+                                      <div class="panel-heading">
+                                          <h3 class="panel-title">Tutorial Pembayaran PPOB</h3>
+                                      </div>
+                                      <div class="panel-body">
+                                          <p class="text-size-16">
+                                              1. Klik pembayaran yang ada di Sidebar sebelah kiri <br>
+                                              2. Cari daftar tagihan di Pencarian yang telah disediakan <br>
+                                              3. Jika pelanggan memiliki tagihan yang belum dibayar maka akan tampil di form pembayaran <br>
+                                              4. Kemudian inputkan uang yang dibayarkan di Inputan yang sudah disediakan <br>
+                                              5. Lalu Klik Bayar, untuk membayar semua tagihan yang ada <br>
+                                              6. Struk akan muncul otomatis <br>
+                                          </p>
+                                      </div>
+                                  </div>
+                           ';
                                 }
                              }  ?>
                         </div>  
@@ -194,7 +321,7 @@
 		</div>
 	</div>
 <?php include 'bottom.php'; ?>
-<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function(){
             $("form").prop('autocomplete', 'on');
         });
@@ -228,6 +355,19 @@
 
             $('#hasil_uang').val(accounting.formatMoney(format));
         });
+    </script>
+    <script type="text/javascript">
+        function reload() {
+           // window.location.reload();
+           window.location.href= "<?php echo base_url('index.php/loket/noc/'.$name[0]->id_pelanggan) ?>";
+        }
+    </script>
+    <script type="text/javascript">
+        window.setTimeout(function() {
+            $(".alert").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove(); 
+            });
+        }, 4000);
     </script>
 </body>
 </html>

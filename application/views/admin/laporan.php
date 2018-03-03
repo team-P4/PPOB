@@ -83,7 +83,7 @@
 										</div>
 										<div class="form-group">
 											<label class="radio-inline">
-												<input type="radio" name="laporan" value="excel"> Excel
+												<input type="radio" name="laporan" value="excel" disabled> Excel
 											</label>
 											<label class="radio-inline">
 												<input type="radio" name="laporan" value="pdf"> PDF
@@ -98,7 +98,7 @@
 									<center><span class="text-size-22"><i></i>Or</span></center><br><br>
 								</div>
 								<div class="col-xs-12 col-sm-5">
-									<form class="form-horizontal" target="_blank" action="<?php echo base_url('index.php/Import/laporan_loketming'); ?>" method="POST">
+									<form class="form-horizontal" target="_blank" action="<?php echo base_url('index.php/Import/laporan_loketbeet'); ?>" method="POST">
 										<div class="form-group">
 											<label for="inputPassword3" class="col-sm-2 control-label">Loket</label>
 											<div class="col-sm-10">
@@ -109,7 +109,7 @@
 												$query = $this->db->get('user')->result();
 
 												foreach ($query as $ka) {
-													echo '<option value="'.$ka->id.'">'.$ka->username.'</option>\n';	
+													echo '<option value="'.$ka->kode_pegawai.'">'.$ka->username.'</option>\n';	
 													}	
 												?>
 											</select>

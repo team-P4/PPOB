@@ -22,7 +22,7 @@
 										</span>
 									</a>
 									<ul class="dropdown-menu">
-										<li><a href="#"><i class="fa fa-fw fa-user"></i> Info</a></li>
+										<!-- <li><a href="#"><i class="fa fa-fw fa-user"></i> Info</a></li> -->
 										<li><a href="<?php echo base_url('index.php/login/logout'); ?>"><i class="fa fa-fw fa-power-off"></i> Logout</a></li>
 									</ul>
 								</li>

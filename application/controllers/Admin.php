@@ -58,8 +58,15 @@ class Admin extends CI_Controller {
 		$object = array('kode_pegawai' => $nilai_baru2,
 						'username' => $this->input->post('username'),
 						'password' => $this->input->post('password'),
+						'saldo' => 500000,
 						'level' => $this->input->post('level') );
 		$this->mod_admin->insert('user',$object);
+		$this->session->set_flashdata('pesan', '
+				<div class="alert alert-success" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>Success!</strong> anda telah mengisi data user loket baru di form tambah loket!
+				</div>
+				');
 		redirect('Admin/tloket');
 	}
 
@@ -75,26 +82,23 @@ class Admin extends CI_Controller {
 			$nilai_baru2 = "PL0001";
 		}
 
-		$w1 = array('id' => $this->input->post('provinsi'));
-		$row_prov = $this->mod_admin->tampil_di('provinces',$w1);
-		$w2 = array('id' => $this->input->post('kabupaten'));
-		$row_kab = $this->mod_admin->tampil_di('regencies',$w2);
-		$w3 = array('id' => $this->input->post('kecamatan'));
-		$row_kec = $this->mod_admin->tampil_di('districts',$w3);
-		$w4 = array('id' => $this->input->post('kelurahan'));
-		$row_kel = $this->mod_admin->tampil_di('villages',$w4);
-
 		$object = array('id_pelanggan' => $nilai_baru2,
 						'nama' => $this->input->post('nama'),
-						'provinsi' => $row_prov[0]->name,
-						'kabupaten_kota' => $row_kab[0]->name,
-						'kecamatan' => $row_kec[0]->name,
-						'kelurahan_desa' => $row_kel[0]->name,
+						'provinsi' => $this->input->post('provinsi'),
+						'kabupaten_kota' => $this->input->post('kabupaten'),
+						'kecamatan' => $this->input->post('kecamatan'),
+						'kelurahan_desa' => $this->input->post('kelurahan'),
 						'kodepos' => $this->input->post('kode_pos'),
 						'alamat' => $this->input->post('alamat'),
 						'kodetarif' => $this->input->post('kodetarif'),
 						'id_gardu' => $this->input->post('gardu') );
 		$this->mod_admin->insert('pelanggan', $object);
+		$this->session->set_flashdata('pesan', '
+				<div class="alert alert-success" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>Success!</strong> anda telah mengisi data pelanggan baru di form tambah pelanggan!
+				</div>
+				');
 		redirect('Admin/tpelanggan');
 	}
 
@@ -119,34 +123,58 @@ class Admin extends CI_Controller {
 						'level' => $this->input->post('level')
 						);
 		$this->mod_admin->update('user', $where, $object);
+		$this->session->set_flashdata('pesan', '
+				<div class="alert alert-success" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>Success!</strong> anda telah mengupdate data user loket '.$this->input->post('username').' baru di form tambah loket!
+				</div>
+				');
 		redirect('Admin/tloket');
 	}
 	public function input_tagihan($id_pel)
 	{
-		$id = $this->mod_admin->get_id_tagihan();
-		if ($id) {
-			$nilai = substr($id['id_tagihan'], 2);
-			$nilai_baru = (int) $nilai;
-			$nilai_baru++;
-			$nilai_baru2 = "TG".str_pad($nilai_baru, 4, "0", STR_PAD_LEFT);
-		}else{
-			$nilai_baru2 = "TG0001";
-		}
+		$tgl = $this->input->post('tgl');
+		if ($tgl == "") {
+			$this->session->set_flashdata('pesan', '
+				<div class="alert alert-default" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>Maaf!</strong> anda belum mengisi tanggal tagihan ID Pelanggan '.$id_pel.'!
+				</div>
+				');
+			redirect('admin/tagihan');	
+		} else {
+			$id = $this->mod_admin->get_id_tagihan();
+			if ($id) {
+				$nilai = substr($id['id_tagihan'], 2);
+				$nilai_baru = (int) $nilai;
+				$nilai_baru++;
+				$nilai_baru2 = "TG".str_pad($nilai_baru, 4, "0", STR_PAD_LEFT);
+			}else{
+				$nilai_baru2 = "TG0001";
+			}
 
-		$where = array('kode_tarif'=>$this->input->post('kode'));
-		$cek  = $this->mod_admin->tampil_di('tarif',$where);
-		$num = rand(500,1500);
-		$res = $num * $cek[0]->tarifperkwh;
-		$object = array('id_tagihan' => $nilai_baru2,
-						'tgl_tagihan' => $this->input->post('tgl'),
-						'kode_tarif' => $this->input->post('kode'),
-						'pemakaian' => $num,
-						'total_biaya' => $res ,
-						'status' => '0',
-						'id_pelanggan' => $id_pel
-					);
-		$this->mod_admin->insert('tagihan',$object);
-		redirect('admin/tagihan');
+			$where = array('id_tarif'=>$this->input->post('kode'));//$this->input->post('kode')
+			$cek  = $this->mod_admin->tampil_di('tarif',$where);
+			$num = rand(500,1500);
+			$res = $num * $cek[0]->tarifperkwh;
+			$object = array('id_tagihan' => $nilai_baru2,
+							'tgl_tagihan' => $this->input->post('tgl'),
+							'kode_tarif' => $cek[0]->kode_tarif,
+							'pemakaian' => $num,
+							'total_biaya' => $res ,
+							'status' => '0',
+							'id_pelanggan' => $id_pel
+						);
+			$this->mod_admin->insert('tagihan',$object);
+
+			$this->session->set_flashdata('pesan', '
+				<div class="alert alert-success" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>Success!</strong> anda telah mengisi tanggal tagihan ID Pelanggan '.$id_pel.'!
+				</div>
+				');
+			redirect('admin/tagihan');	
+		}
 	}
 
 	public function del_loket()
@@ -157,6 +185,12 @@ class Admin extends CI_Controller {
 		for ($i=0; $i < $jumlah_list ; $i++) { 
 			$this->db->query("DELETE FROM user WHERE id='$list[$i]' ");
 		}
+		$this->session->set_flashdata('pesan', '
+				<div class="alert alert-default" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>Terhapus!</strong> Anda telah berhasil menghapus data ID Loket yang anda pilih!
+				</div>
+				');
 		redirect('Admin/tloket');
 	}
 
@@ -171,27 +205,24 @@ class Admin extends CI_Controller {
 	public function update_pelanggan()
 	{
 		$where = array('id_pelanggan' => $this->input->post('id_pelanggan'));
-
-		$w1 = array('id' => $this->input->post('provinsi'));
-		$row_prov = $this->mod_admin->tampil_di('provinces',$w1);
-		$w2 = array('id' => $this->input->post('kabupaten'));
-		$row_kab = $this->mod_admin->tampil_di('regencies',$w2);
-		$w3 = array('id' => $this->input->post('kecamatan'));
-		$row_kec = $this->mod_admin->tampil_di('districts',$w3);
-		$w4 = array('id' => $this->input->post('kelurahan'));
-		$row_kel = $this->mod_admin->tampil_di('villages',$w4);
 		
 		$object = array('id_pelanggan' => $this->input->post('id_pelanggan'),
 						'nama' => $this->input->post('nama'),
-						'provinsi' => $row_prov[0]->name,
-						'kabupaten_kota' => $row_kab[0]->name,
-						'kecamatan' => $row_kec[0]->name,
-						'kelurahan_desa' => $row_kel[0]->name,
+						'provinsi' => $this->input->post('provinsi'),
+						'kabupaten_kota' => $this->input->post('kabupaten'),
+						'kecamatan' => $this->input->post('kecamatan'),
+						'kelurahan_desa' => $this->input->post('kelurahan'),
 						'kodepos' => $this->input->post('kode_pos'),
 						'alamat' => $this->input->post('alamat'),
 						'kodetarif' => $this->input->post('kodetarif'),
 						'id_gardu' => $this->input->post('gardu') );
 		$this->mod_admin->update('pelanggan', $where, $object);
+		$this->session->set_flashdata('pesan', '
+				<div class="alert alert-success" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>Success!</strong> anda telah mengupdate data pelanggan '.$this->input->post('id_pelanggan').' di form update pelanggan!
+				</div>
+				');
 		redirect('Admin/tpelanggan');
 	}
 
@@ -203,6 +234,12 @@ class Admin extends CI_Controller {
 		for ($i=0; $i < $jumlah_pel; $i++) { 
 			$this->db->query("DELETE FROM pelanggan WHERE id_pelanggan='$pel[$i]' ");
 		}
+		$this->session->set_flashdata('pesan', '
+				<div class="alert alert-default" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>Terhapus!</strong> Anda telah berhasil menghapus data ID Pelanggan yang anda pilih!
+				</div>
+				');
 		redirect('Admin/tpelanggan');
 	}
 
@@ -263,8 +300,9 @@ class Admin extends CI_Controller {
 
 	public function laporan_tagihan()
 	{
-		$this->load->view('admin/laporan_tagihan');
-
+		$where = array('status' => 0 );
+		$data['tagihan'] = $this->mod_admin->tampil_di('tagihan',$where);
+		$this->load->view('admin/laporan/laporan_belbay',$data);
 		$this->mod_admin->convert_pdf("Laporan Belum Bayar.pdf");
 	}
 }

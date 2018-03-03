@@ -22,6 +22,7 @@
 							<div class="panel panel-default">
 								<div class="panel-body">
 									<center><span class="text-size-22"><i class="fa fa-user-o space-right-10"></i>Tambah Loket</span></center><br> <br> 
+									<?php echo $this->session->flashdata('pesan'); ?>
 									<div class="col-md-12">	
 										<form action="<?php echo base_url('index.php/Admin/input_loket'); ?>" method="POST" style="border-radius: 0px;" class="form-horizontal group-border-dashed">
 											<div class="form-group">
@@ -132,7 +133,7 @@
 						<span class="col-sm-2"></span>
 						<span class="col-sm-3 text-size-18 text-left">Saldo</span>
 						<span class="col-sm-6 text-size-18">
-									<b><?php echo number_format($key->saldo,2,',','.'); ?></b>
+									<b>Rp. <?php echo number_format($key->saldo,2,',','.'); ?>,-</b>
 						</span><br>
 						<span class="col-sm-2"></span>
 						<span class="col-sm-3 text-size-18 text-left">Level</span>
@@ -172,5 +173,12 @@
 	$(document).ready(function(){
     $('#myTable').DataTable();
 });
+</script>
+<script type="text/javascript">
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 4000);
 </script>
 </html>
